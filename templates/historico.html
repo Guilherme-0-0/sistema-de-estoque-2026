@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="{{ 'es' if lang == 'es' else 'pt-br' }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ t('view_history') }} - {{ t('stock_management') }}</title>
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="{{ url_for('static', filename='img/LogoAtena.png') }}" type="image/x-icon">
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    
+    <!-- Estilos -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style/reset.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style/home.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style/historico.css') }}">
+</head>
+<body>
+    <!-- Header com Menu e Busca -->
+    {# Definir valores padrão para evitar erros quando a view não fornecer todas as variáveis #}
+    {% set periodo = periodo if periodo is defined else 'today' %}
+    {% set custom_date = custom_date if custom_date is defined else '' %}
+    {% set movimentacoes = movimentacoes if movimentacoes is defined else [] %}
+    {% set total_movimentacoes = total_movimentacoes if total_movimentacoes is defined else (movimentacoes|length) %}
+    {% set periodo_display = periodo_display if periodo_display is defined else periodo %}
+    {% set has_prev = has_prev if has_prev is defined else False %}
+    {% set has_next = has_next if has_next is defined else False %}
+    {% set current_page = current_page if current_page is defined else 1 %}
+    {% set total_pages = total_pages if total_pages is defined else 1 %}
+    <header class="top-bar">
+        <div class="logo-container">
+            <img src="{{ url_for('static', filename='img/LogoAtena.png') }}" alt="Logo" class="logo">
+            <h1>{{ t('stock_management') }}</h1>
+        </div>
+        <form class="search-container" action="{{ url_for('home') }}" method="get" role="search" aria-label="{{ t('search_placeholder') }}">
+            <label for="searchInput" class="sr-only">{{ t('search_placeholder') }}</label>
+            <input id="searchInput" name="q" type="text" placeholder="{{ t('search_placeholder') }}" class="search-input" value="{{ request.args.get('q', '') }}">
+            <button class="search-btn" aria-label="{{ t('search_placeholder') }}"><i class="bi bi-search"></i></button>
+        </form>
+        <nav class="menu" role="navigation" aria-label="menu principal">
+            <a href="{{ url_for('home') }}" class="menu-btn" aria-label="{{ t('home') }}"><i class="bi bi-house-fill"></i> {{ t('home') }}</a>
+            <a href="{{ url_for('adicionar_produto') }}" class="menu-btn" aria-label="{{ t('add_product') }}"><i class="bi bi-plus-circle"></i> {{ t('add_product') }}</a>
+            <a href="{{ url_for('retirada') }}" class="menu-btn" aria-label="{{ t('withdraw') }}"><i class="bi bi-box-arrow-left"></i> {{ t('withdraw') }}</a>
+            <a href="{{ url_for('historico') }}" class="menu-btn active" aria-label="{{ t('view_history') }}"><i class="bi bi-clock-history"></i> {{ t('view_history') }}</a>
+            <a href="{{ url_for('logout') }}" class="menu-btn danger" aria-label="{{ t('logout') }}"><i class="bi bi-box-arrow-right"></i> {{ t('logout') }}</a>
+        </nav>
+        
+        <!-- Language Switcher -->
+        <div class="language-switcher">
+            <a href="{{ url_for('change_language', lang='pt') }}" class="lang-btn {{ 'active' if lang == 'pt' else '' }}">🇧🇷</a>
+            <a href="{{ url_for('change_language', lang='es') }}" class="lang-btn {{ 'active' if lang == 'es' else '' }}">🇪🇸</a>
+        </div>
+    </header>
+
+    <!-- Container Principal -->
+    <main class="main-container">
+        <!-- Controles Superiores -->
+        <section class="top-controls">
+            <div class="period-selector">
+                <label for="periodoSelect">
+                    <i class="bi bi-funnel"></i>
+                    {{ t('view_period') if lang == 'pt' else 'Ver período' }}:
+                </label>
+                <select id="periodoSelect" class="filter-input" onchange="changePeriodo()">
+                    <option value="today" {% if periodo == 'today' %}selected{% endif %}>
+                        {{ t('today') if lang == 'pt' else 'Hoje' }}
+                    </option>
+                    <option value="week" {% if periodo == 'week' %}selected{% endif %}>
+                        {{ t('last_7_days') if lang == 'pt' else 'Últimos 7 dias' }}
+                    </option>
+                    <option value="month" {% if periodo == 'month' %}selected{% endif %}>
+                        {{ t('last_30_days') if lang == 'pt' else 'Últimos 30 dias' }}
+                    </option>
+                    <option value="current_month" {% if periodo == 'current_month' %}selected{% endif %}>
+                        {{ t('current_month') if lang == 'pt' else 'Este mês' }}
+                    </option>
+                    <option value="last_month" {% if periodo == 'last_month' %}selected{% endif %}>
+                        {{ t('last_month') if lang == 'pt' else 'Mês passado' }}
+                    </option>
+                    <option value="year" {% if periodo == 'year' %}selected{% endif %}>
+                        {{ t('this_year') if lang == 'pt' else 'Este ano' }}
+                    </option>
+                    <option value="all" {% if periodo == 'all' %}selected{% endif %}>
+                        {{ t('all_movements') if lang == 'pt' else 'Todas as movimentações' }}
+                    </option>
+                    <option value="custom" {% if periodo == 'custom' %}selected{% endif %}>
+                        {{ t('specific_date') if lang == 'pt' else 'Data específica...' }}
+                    </option>
+                </select>
+            </div>
+
+            {% if periodo == 'custom' %}
+            <div class="custom-date-picker" id="customDatePicker" style="display: flex;">
+            {% else %}
+            <div class="custom-date-picker" id="customDatePicker" style="display: none;">
+            {% endif %}
+                <label for="customDate">
+                    <i class="bi bi-calendar3"></i>
+                    {{ t('date') if lang == 'pt' else 'Data' }}:
+                </label>
+                <input type="date" id="customDate" class="filter-input" value="{{ custom_date }}">
+                <button type="button" class="apply-date-btn" onclick="applyCustomDate()" aria-label="Aplicar data">
+                    <i class="bi bi-check-lg"></i>
+                </button>
+            </div>
+            
+            <button class="export-btn" onclick="exportarHistorico()">
+                <i class="bi bi-file-earmark-spreadsheet"></i>
+                {{ t('export_excel') }}
+            </button>
+        </section>
+
+        <!-- Info do período -->
+        <section class="period-info">
+            <div class="info-badge">
+                <i class="bi bi-info-circle"></i>
+                <span>{{ t('showing') if lang == 'pt' else 'Mostrando' }}: <strong>{{ total_movimentacoes }}</strong> {{ t('movements_from') if lang == 'pt' else 'movimentações de' }} <strong>{{ periodo_display }}</strong></span>
+            </div>
+        </section>
+
+        <!-- Lista de Movimentações -->
+        <section class="history-list">
+            <table class="history-table">
+                <thead>
+                    <tr>
+                        <th>Data/Hora</th>
+                        <th>Produto</th>
+                        <th>Código</th>
+                        <th>Ação</th>
+                        <th>Quantidade</th>
+                        <th>Responsável</th>
+                    </tr>
+                </thead>
+                <tbody id="historyTableBody">
+                    {% for mov in movimentacoes %}
+                    <tr class="movement-row {{ 'entrada' if mov.action == 'entrada' else 'saida' }}">
+                        <td>{{ mov.timestamp.strftime('%d/%m/%Y %H:%M') }}</td>
+                        <td>{{ mov.name }}</td>
+                        <td>{{ mov.product_barcode }}</td>
+                        <td>
+                            <span class="action-badge {{ mov.action }}">
+                                {% if mov.action == 'entrada' %}
+                                <i class="bi bi-box-arrow-in-down"></i>
+                                {% else %}
+                                <i class="bi bi-box-arrow-up"></i>
+                                {% endif %}
+                                {{ mov.action.title() }}
+                            </span>
+                        </td>
+                        <td>{{ mov.quantidade }}</td>
+                        <td class="motivo-cell">{{ mov.motivo if mov.motivo else '-' }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <!-- Paginação -->
+            <div class="pagination">
+                {% if has_prev %}
+                <a href="{{ url_for('historico', page=current_page-1, periodo=periodo, date=custom_date if periodo == 'custom' else '') }}" class="page-btn">&laquo; Anterior</a>
+                {% endif %}
+                
+                <span class="page-info">Página {{ current_page }} de {{ total_pages }}</span>
+                
+                {% if has_next %}
+                <a href="{{ url_for('historico', page=current_page+1, periodo=periodo, date=custom_date if periodo == 'custom' else '') }}" class="page-btn">Próxima &raquo;</a>
+                {% endif %}
+            </div>
+        </section>
+    </main>
+
+    <script>
+        function changePeriodo() {
+            const periodo = document.getElementById('periodoSelect').value;
+            const customDatePicker = document.getElementById('customDatePicker');
+            
+            // Mostra/oculta o date picker baseado na seleção
+            if (periodo === 'custom') {
+                // mostra e foca o campo de data para melhorar a usabilidade
+                customDatePicker.style.display = 'flex';
+                const customInput = document.getElementById('customDate');
+                if (customInput) {
+                    // limpa valor visível para forçar seleção (não obriga, só melhora UX)
+                    try { customInput.focus(); } catch(e) {}
+                }
+            } else {
+                customDatePicker.style.display = 'none';
+                // Redireciona imediatamente para outros períodos
+                window.location.href = "{{ url_for('historico') }}?periodo=" + encodeURIComponent(periodo);
+            }
+        }
+
+        function applyCustomDate() {
+            const customInput = document.getElementById('customDate');
+            if (!customInput) return;
+            const customDate = customInput.value;
+            if (!customDate) {
+                alert('Por favor, selecione uma data válida');
+                return;
+            }
+
+            // input[type=date] fornece yyyy-mm-dd — encode antes de enviar
+            const encoded = encodeURIComponent(customDate);
+            window.location.href = "{{ url_for('historico') }}?periodo=custom&date=" + encoded;
+        }
+
+        function exportarHistorico() {
+            const periodo = document.getElementById('periodoSelect').value;
+            let url = `{{ url_for('exportar_historico') }}?periodo=${periodo}`;
+            
+            if (periodo === 'custom') {
+                const customDate = document.getElementById('customDate').value;
+                url += `&date=${customDate}`;
+            }
+            
+            window.location.href = url;
+        }
+
+        // Melhor experiência: permitir pressionar Enter no input de data para aplicar
+        window.addEventListener('DOMContentLoaded', function() {
+            const customInput = document.getElementById('customDate');
+            if (!customInput) return;
+
+            customInput.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    applyCustomDate();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

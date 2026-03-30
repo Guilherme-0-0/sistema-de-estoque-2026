@@ -1,0 +1,526 @@
+/* Estilos específicos para a página de retirada de estoque (palette_modern) */
+@import url('/static/style/palette_modern.css');
+
+.produto-card {
+    background: var(--surface);
+    border-radius: var(--radius-lg);
+    padding: 2.2rem;
+    box-shadow: var(--shadow-xl);
+    max-width: 1000px;
+    margin: 2rem auto;
+    display: grid;
+    gap: 2.2rem;
+    grid-template-columns: 220px 1fr;
+    border: 1px solid var(--border-default);
+}
+
+.produto-imagem {
+    width: 220px;
+    height: 220px;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    border: 2px solid var(--border-subtle);
+    background: var(--input-bg);
+}
+
+.produto-imagem img { width:100%; height:100%; object-fit:cover; }
+
+.produto-info { padding: 1rem; }
+
+.produto-info h2 { font-size:2rem; color:var(--text-primary); margin-bottom:1rem; font-weight: 700; }
+
+.info-grid { display:grid; gap:1.5rem; grid-template-columns: 1fr; }
+
+/* Hierarquia de tamanhos - informações mais importantes ficam maiores */
+
+/* 1º nível: Estoque Atual (MAIOR - mais crítico) */
+.info-item { display:flex; align-items:center; gap:0.75rem; color:var(--text-muted); font-size: 1rem; }
+.info-item i { color:var(--accent); font-size: 1.2rem; }
+
+.info-item:has(.quantidade-atual) { font-size: 1.5rem; }
+.info-item:has(.quantidade-atual) i { font-size: 1.8rem; }
+.quantidade-atual { font-size:2.2rem; color:var(--accent); font-weight:800; margin-left: 0.5rem; }
+
+/* 2º nível: Data de Validade (segundo mais importante) */
+.info-item:has(span:contains("Validade")) { font-size: 1.3rem; }
+.info-item:nth-child(2) { font-size: 1.3rem; font-weight: 600; }
+.info-item:nth-child(2) i { font-size: 1.5rem; }
+.info-item:nth-child(2) span { color: var(--text-primary); font-weight: 600; }
+
+/* 3º nível: Código de Barras (terceiro) */
+.info-item:nth-child(1) { font-size: 1.1rem; }
+.info-item:nth-child(1) i { font-size: 1.3rem; }
+
+/* Controles de Quantidade - DESTAQUE MÁXIMO */
+.quantidade-form { 
+    grid-column: 1 / -1; 
+    text-align: center; 
+    background: var(--surface-elevated); 
+    padding: 2.2rem; 
+    border-radius: var(--radius-lg); 
+    border: 2px solid var(--border-default); 
+}
+
+.quantidade-controls { 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    gap: 2rem; 
+    margin-bottom: 1.6rem; 
+}
+
+.qty-btn { 
+    background: none; 
+    border: none; 
+    font-size: 3.5rem; 
+    color: var(--accent); 
+    cursor: pointer; 
+    padding: 1rem; 
+    transition: transform var(--transition-fast) ease, color var(--transition-fast); 
+}
+.qty-btn:hover { 
+    transform: scale(1.15); 
+    color: var(--accent-hover); 
+}
+.qty-btn:active { 
+    transform: scale(1.05); 
+    color: var(--accent-pressed); 
+}
+
+.quantidade-input-group { 
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    gap: 0.8rem; 
+}
+.quantidade-input-group label { 
+    font-size: 1.35rem; 
+    font-weight: 700; 
+    color: var(--text-primary); 
+}
+.quantidade-input { 
+    width: 145px; 
+    padding: 1.1rem; 
+    font-size: 2.6rem; 
+    font-weight: 700; 
+    text-align: center; 
+    border: 2px solid var(--input-focus); 
+    border-radius: var(--radius-md); 
+    background: var(--input-bg); 
+    color: var(--accent); 
+    box-shadow: var(--shadow-md), 0 0 0 4px var(--accent-glow); 
+}
+
+/* Campo Responsável */
+.responsavel-group {
+    margin: 2rem 0 1.5rem;
+    text-align: left;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.responsavel-group > label {
+    display: block;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+}
+
+#responsavel-options {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.responsavel-option {
+    background: var(--surface-elevated);
+    border: 2px solid var(--border-default);
+    border-radius: var(--radius-md);
+    padding: 1rem 1.2rem;
+    transition: all var(--transition-fast);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.responsavel-option:hover {
+    border-color: var(--accent);
+    background: var(--input-bg);
+    transform: translateX(4px);
+}
+
+.responsavel-option input[type="radio"] {
+    display: none;
+}
+
+.responsavel-option i {
+    font-size: 1.4rem;
+    color: var(--text-muted);
+    transition: all var(--transition-fast);
+}
+
+.responsavel-option input[type="radio"]:checked + i {
+    color: var(--accent);
+}
+
+.responsavel-option span {
+    font-size: 1.05rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    flex: 1;
+}
+
+.outro-input {
+    width: 100%;
+    padding: 0.9rem 1rem;
+    margin-top: 0.5rem;
+    border: 2px solid var(--border-default);
+    border-radius: var(--radius-md);
+    background: var(--input-bg);
+    color: var(--text-primary);
+    font-size: 1rem;
+    font-family: inherit;
+    transition: border-color var(--transition-fast);
+}
+
+.outro-input:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-glow);
+}
+
+.gerenciar-btn {
+    background: var(--surface);
+    color: var(--text-primary);
+    border: 2px solid var(--border-default);
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    transition: all var(--transition-fast);
+    margin-top: 0.5rem;
+}
+
+.gerenciar-btn:hover {
+    background: var(--surface-elevated);
+    border-color: var(--accent);
+    color: var(--accent);
+    transform: translateY(-2px);
+}
+
+.gerenciar-btn i {
+    font-size: 1.1rem;
+}
+
+/* Campo Motivo */
+.motivo-group {
+    margin: 2rem 0 1.5rem;
+    text-align: left;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.motivo-group label {
+    display: block;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.75rem;
+}
+
+.motivo-group textarea {
+    width: 100%;
+    padding: 1rem;
+    font-size: 1.05rem;
+    border: 2px solid var(--border-default);
+    border-radius: var(--radius-md);
+    background: var(--input-bg);
+    color: var(--text-primary);
+    font-family: inherit;
+    resize: vertical;
+    transition: border-color var(--transition-fast);
+}
+
+.motivo-group textarea:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-glow);
+}
+
+.motivo-group textarea::placeholder {
+    color: var(--text-muted);
+    opacity: 0.7;
+}
+
+/* Botão Submit */
+.submit-btn {
+    background: var(--accent);
+    color: white;
+    border: none;
+    padding: 1.2rem 3rem;
+    font-size: 1.3rem;
+    font-weight: 700;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    transition: all var(--transition-fast);
+    box-shadow: var(--shadow-lg);
+    margin-top: 1rem;
+}
+
+.submit-btn:hover {
+    background: var(--accent-hover);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-xl);
+}
+
+.submit-btn:active {
+    background: var(--accent-pressed);
+    transform: translateY(0);
+}
+
+.submit-btn i {
+    font-size: 1.5rem;
+}
+
+/* Dicas */
+.tips-container { 
+    background: var(--surface-elevated); 
+    border-radius: var(--radius-md); 
+    padding: 1.6rem; 
+    max-width: 1000px; 
+    margin: 1rem auto; 
+    border: 1px solid var(--border-subtle); 
+}
+
+.tips-container h3 { display:flex; align-items:center; gap:0.5rem; color:var(--text-muted); margin-bottom:0.75rem; }
+
+.tips-container ul { list-style:none; padding-left:1.25rem; }
+.tips-container li { margin:0.5rem 0; position:relative; color:var(--text-primary); }
+.tips-container li::before { content:"•"; color:var(--accent); position:absolute; left:-1rem; }
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .produto-card { grid-template-columns: 1fr; margin:1rem; padding:1rem; }
+    .produto-imagem { width:150px; height:150px; margin:0 auto; }
+    .produto-info h2 { font-size: 1.6rem; }
+    .info-grid { grid-template-columns:1fr; gap: 1rem; }
+    .quantidade-atual { font-size: 1.8rem; }
+    .info-item:nth-child(2) { font-size: 1.15rem; }
+    .qty-btn { font-size: 3rem; }
+    .quantidade-input { font-size: 2rem; width: 120px; padding: 0.8rem; }
+    .quantidade-input-group label { font-size: 1.15rem; }
+    .tips-container { margin:1rem; }
+}
+
+@media (max-width: 480px) {
+    .produto-info h2 { font-size: 1.4rem; }
+    .quantidade-atual { font-size: 1.6rem; }
+    .info-item:nth-child(2) { font-size: 1rem; }
+    .qty-btn { font-size: 2.5rem; padding: 0.75rem; }
+    .quantidade-input { font-size: 1.8rem; width: 100px; }
+    .quantidade-form { padding: 1.5rem; }
+}
+
+/* ========== ESTILOS DO MODAL DE RESPONSÁVEIS ========== */
+
+/* Formulário de adicionar responsável */
+.add-responsavel-form {
+    display: flex;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+}
+
+.responsavel-input {
+    flex: 1;
+    padding: 0.9rem 1.2rem;
+    font-size: 1.05rem;
+    border: 2px solid var(--input-border);
+    border-radius: var(--radius-md);
+    background: var(--input-bg);
+    color: var(--text-primary);
+    font-family: inherit;
+    transition: all var(--transition-fast);
+}
+
+.responsavel-input:focus {
+    outline: none;
+    border-color: var(--input-focus);
+    background: var(--surface-elevated);
+    box-shadow: 0 0 0 4px var(--accent-glow);
+}
+
+.responsavel-input::placeholder {
+    color: var(--text-muted);
+    opacity: 0.7;
+}
+
+.add-btn {
+    background: var(--accent);
+    color: var(--bg-1);
+    border: none;
+    padding: 0.9rem 1.5rem;
+    font-size: 1.05rem;
+    font-weight: 700;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    transition: all var(--transition-fast);
+    box-shadow: var(--shadow-sm);
+    white-space: nowrap;
+}
+
+.add-btn:hover {
+    background: var(--accent-hover);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.add-btn:active {
+    background: var(--accent-pressed);
+    transform: translateY(0);
+}
+
+.add-btn i {
+    font-size: 1.2rem;
+}
+
+/* Lista de responsáveis no modal */
+.responsavel-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    max-height: 400px;
+    overflow-y: auto;
+    padding: 0.5rem;
+}
+
+.responsavel-item {
+    background: var(--surface-elevated);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+    padding: 1rem 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    transition: all var(--transition-fast);
+}
+
+.responsavel-item:hover {
+    border-color: var(--border-default);
+    background: var(--input-bg);
+}
+
+.responsavel-item span {
+    font-size: 1.05rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    flex: 1;
+}
+
+.remove-responsavel-btn {
+    background: transparent;
+    color: var(--text-danger);
+    border: 1px solid var(--border-danger);
+    padding: 0.5rem 1rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    transition: all var(--transition-fast);
+}
+
+.remove-responsavel-btn:hover {
+    background: var(--bg-danger);
+    border-color: var(--text-danger);
+}
+
+.remove-responsavel-btn i {
+    font-size: 1rem;
+}
+
+/* Botões do footer do modal */
+.modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.75rem;
+    padding: 1.5rem 2rem;
+    border-top: 1px solid var(--border-subtle);
+}
+
+.btn-secondary {
+    background: var(--surface-elevated);
+    color: var(--text-primary);
+    border: 2px solid var(--border-default);
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.btn-secondary:hover {
+    background: var(--input-bg);
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+/* Scrollbar personalizada para lista de responsáveis */
+.responsavel-list::-webkit-scrollbar {
+    width: 8px;
+}
+
+.responsavel-list::-webkit-scrollbar-track {
+    background: var(--surface);
+    border-radius: var(--radius-sm);
+}
+
+.responsavel-list::-webkit-scrollbar-thumb {
+    background: var(--border-default);
+    border-radius: var(--radius-sm);
+}
+
+.responsavel-list::-webkit-scrollbar-thumb:hover {
+    background: var(--accent);
+}
+
+/* Responsividade do modal */
+@media (max-width: 480px) {
+    .add-responsavel-form {
+        flex-direction: column;
+    }
+    
+    .add-btn {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .responsavel-item {
+        flex-direction: column;
+        align-items: stretch;
+        text-align: center;
+    }
+    
+    .remove-responsavel-btn {
+        width: 100%;
+        justify-content: center;
+    }
+}

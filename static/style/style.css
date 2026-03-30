@@ -1,0 +1,180 @@
+:root {
+    --cor-fundo: #F0F0F0; /* fundo claro com melhor contraste */
+    --cor-fundo-retangulo: linear-gradient(135deg, #4D7033 0%, #D9D9D9 33%, #E6E6E6 61%, #F0F0F0 100%);
+    --cor-texto: #1A1A1A; /* texto escuro com alto contraste */
+    --cor-icons: #1A1A1A; /* ícones escuros */
+    --cor-caixas: rgba(255, 255, 255, 0.98); /* caixas claras */
+    --cor-accent: #4D7033; /* destaque verde escuro - alto contraste */
+    --border-radius: 18px;
+    --transition-speed: 0.4s;
+}
+
+/* ===== RESET ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: var(--cor-fundo);
+    font-family: 'Poppins', sans-serif;
+    /* Corrigir corte de conteúdo: permitir rolagem vertical */
+    overflow-x: hidden;
+    overflow-y: auto;
+    min-height: 100vh;
+    padding: 14px;
+}
+
+/* ===== LOGO ATENA ===== */
+.logo_atena {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100vh;
+    transform: translate(-50%, -50%) scale(1);
+    animation: 
+        logoAtena 2s ease-in-out forwards, 
+        logoAtenaSai 1s ease-in-out 2s forwards, 
+        logoAtenaFinal 1s ease-in-out 3s forwards;
+    z-index: 5;
+}
+
+@keyframes logoAtena {
+    0% { transform: translate(-50%, -50%) scale(1); }
+    50% { transform: translate(-50%, -50%) scale(1.5) rotate(-180deg); opacity: 1; }
+    100% { transform: translate(-50%, -50%) scale(1) rotate(0deg); opacity: 1; }
+}
+
+@keyframes logoAtenaSai {
+    100% { transform: translate(calc(-50% - 20%), -50%) scale(1); }
+}
+
+@keyframes logoAtenaFinal {
+    0% { transform: translate(calc(-50% - 20%), -50%) scale(1); }
+    100% { transform: translate(calc(-50% - 46%), calc(-50% - 37.5vh)) scale(0.19); }
+}
+
+/* ===== LOGO CELC ===== */
+.logo_celc {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100vh;
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0;
+    z-index: 4;
+    animation: 
+        logoCelc 2s ease-in-out forwards, 
+        logoCelcAnim 1s ease-in 2s forwards, 
+        logoCelcFinal 1s ease-in-out 3s forwards;
+    animation-delay: 2s, 2s, 3s;
+}
+
+@keyframes logoCelc {
+    0% { opacity: 0; transform: translate(-50%, -50%) rotate(180deg) scale(1); }
+    50% { opacity: 1; transform: translate(-50%, -50%) rotate(0deg) scale(1); }
+    100% { opacity: 1; transform: translate(-50%, -50%) rotate(0deg) scale(1); }
+}
+
+@keyframes logoCelcAnim {
+    0% { transform: translate(calc(-50% - 20%), -50%) scale(1) rotate(180deg); }
+    100% { transform: translate(calc(-50% + 20%), -50%) scale(1) rotate(0deg); }
+}
+
+@keyframes logoCelcFinal {
+    0% { transform: translate(calc(-50% + 20%), -50%) scale(1); }
+    100% { transform: translate(calc(-50% - 46%), calc(-50% + 47.5vh)) scale(0.19); }
+}
+
+/* ===== FUNDO ===== */
+.fundo {
+    position: absolute;
+    display: flex;
+    width: calc(110% - 28px);
+    height: calc(100vh - 28px);
+    top: 14px;
+    left: 14px;
+    background: var(--cor-fundo-retangulo);
+    border-radius: var(--border-radius);
+    z-index: -1;
+    opacity: 0;
+    animation: fundoAnim 1s ease-in-out 4s forwards;
+}
+
+@keyframes fundoAnim {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+/* ===== Layout básico da Home (mínimo para não quebrar) ===== */
+.top-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    background: var(--cor-caixas, #fff);
+    border-radius: var(--border-radius, 12px);
+    padding: 10px 14px;
+    box-shadow: 0 2px 8px rgba(0,0,0,.06);
+    margin-bottom: 12px;
+}
+.logo-container { display: flex; align-items: center; gap: 10px; }
+.logo { height: 40px; width: auto; }
+.menu { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.menu-btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 6px 10px; border-radius: 8px; text-decoration: none;
+    background: #fff; border: 1px solid #e5e5e5; color: #333;
+}
+.menu-btn.active { border-color: var(--cor-accent, #4D7033); color: var(--cor-accent, #4D7033); }
+.menu-btn.danger { border-color: #d9534f; color: #d9534f; }
+.search-container { display: flex; align-items: center; gap: 8px; }
+.search-input {
+    border: 1px solid #ddd; border-radius: 8px; padding: 6px 10px; min-width: 220px;
+}
+.search-btn {
+    border: 1px solid #ddd; border-radius: 8px; background: #fff; padding: 6px 10px; cursor: pointer;
+}
+.language-switcher { display: flex; gap: 6px; }
+.lang-btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 34px; height: 34px; border-radius: 8px; border: 1px solid #e5e5e5; background: #fff;
+}
+.lang-btn.active { border-color: var(--cor-accent, #4D7033); }
+
+.app-footer {
+    text-align: center;
+    padding: 12px 8px;
+    color: #555;
+}
+
+/* Cards e grid (ajustes suaves) */
+.stat-card, .product-card { border: 1px solid #eee; }
+.product-card .card-body { display: flex; flex-direction: column; gap: .25rem; }
+
+/* ===== Modais (mínimo para centralizar e exibir) ===== */
+.modal-overlay {
+    position: fixed; inset: 0; display: none; align-items: center; justify-content: center;
+    background: rgba(0,0,0,.5); z-index: 1050;
+}
+.modal-container {
+    background: #fff; border-radius: 12px; width: min(520px, 92vw);
+    box-shadow: 0 8px 30px rgba(0,0,0,.2); padding: 16px;
+}
+.modal-header, .modal-footer { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.modal-close { background: transparent; border: none; cursor: pointer; }
+.quantity-controls { display: inline-flex; align-items: center; gap: 6px; }
+.qty-btn { border: 1px solid #ddd; background: #fff; border-radius: 8px; padding: 4px 8px; cursor: pointer; }
+.responsaveis-list { display: grid; gap: 6px; }
+
+/* Preferências para inputs */
+input[readonly] { background: #fff; }

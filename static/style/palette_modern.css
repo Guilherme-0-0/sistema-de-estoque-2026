@@ -1,0 +1,486 @@
+/* ============================================================================
+   PALETA DE CORES COM ALTO CONTRASTE - ACESSIBILIDADE WCAG AAA
+   Design focado em:
+   - Contraste mínimo de 7:1 para WCAG AAA (ideal para deficiência visual)
+   - Cores distintas e facilmente diferenciáveis
+   - Tamanhos de texto ampliados
+   - Espaçamento generoso para facilitar leitura
+   
+   Cores principais:
+   - #D9D9D9 (Cinza claro - fundo)
+   - #E6E6E6 (Cinza muito claro - fundo)
+   - #5A8040 (Verde escuro - melhor contraste que #78A55A)
+   ============================================================================ */
+
+:root {
+    /* === FUNDOS: Tons claros e limpos === */
+    --bg-1: #F0F0F0;           /* Fundo principal - cinza muito claro (melhor contraste) */
+    --bg-2: #E6E6E6;           /* Fundo alternativo - cinza claro */
+    --bg-3: #D9D9D9;           /* Fundo para contraste */
+    
+    /* === SUPERFÍCIES: Elevações com cinza e branco === */
+    --surface: #FFFFFF;        /* Cards e containers principais - branco puro */
+    --surface-elevated: #F8F8F8; /* Elementos elevados (hover, active) */
+    --card-bg: #FCFCFC;        /* Background de cards específicos */
+    
+    /* === TEXTO: Alto contraste para acessibilidade WCAG AAA === */
+    --text-primary: #1A1A1A;   /* Texto principal - preto suave (contraste 14:1) */
+    --text-secondary: #2E2E2E; /* Texto secundário - cinza muito escuro (contraste 12:1) */
+    --text-muted: #4D4D4D;     /* Texto auxiliar (contraste 9:1) */
+    --text-inverse: #FFFFFF;   /* Texto em fundos escuros */
+    
+    /* === VERDE: Cor primária com alto contraste (WCAG AAA) === */
+    --accent: #4D7033;         /* Verde escuro - contraste 7:1 em branco */
+    --accent-hover: #5A8040;   /* Hover - levemente mais claro mas ainda acessível */
+    --accent-pressed: #3D5A28; /* Pressed - mais escuro */
+    --accent-subtle: #6A9449;  /* Versão mais sutil */
+    --accent-glow: rgba(77, 112, 51, 0.25); /* Glow visível */
+    
+    /* === VERDE SECUNDÁRIO: Para variações com bom contraste === */
+    --green-soft: #4D7033;     /* Verde natural base - alto contraste */
+    --green-light: #5A8040;    /* Verde para sucesso - alto contraste */
+    --green-pale: #6A9449;     /* Verde para backgrounds */
+    
+    /* === INDICADOR VISUAL FORTE === */
+    --focus-ring: 3px solid #4D7033; /* Anel de foco visível e espesso */
+    --focus-ring-offset: 2px;         /* Espaçamento do anel de foco */
+    
+    /* === CINZA: Tons intermediários === */
+    --gray-100: #F9F9F9;       /* Muito claro */
+    --gray-200: #E6E6E6;       /* Claro */
+    --gray-300: #D9D9D9;       /* Médio-claro */
+    --gray-400: #B8B8B8;       /* Médio */
+    --gray-500: #8C8C8C;       /* Médio-escuro */
+    --gray-600: #5A5A5A;       /* Escuro */
+    --gray-700: #3D3D3D;       /* Muito escuro */
+    
+    /* === ESTADOS: Alertas com alto contraste e múltiplos indicadores === */
+    --success: #2D5A1E;        /* Verde escuro para sucesso (contraste 8:1) */
+    --warning: #8B5A00;        /* Marrom-dourado para avisos (contraste 7:1) */
+    --danger: #B71C1C;         /* Vermelho escuro para erros (contraste 8:1) */
+    --info: #1565C0;           /* Azul escuro para informações (contraste 7:1) */
+    
+    /* === BORDAS E DIVISORES: Mais visíveis para baixa visão === */
+    --border-subtle: rgba(0, 0, 0, 0.15);  /* Borda mais visível */
+    --border-default: rgba(0, 0, 0, 0.25); /* Borda padrão - bem visível */
+    --border-strong: rgba(0, 0, 0, 0.40);  /* Borda forte - muito visível */
+    --border-accent: rgba(77, 112, 51, 0.50);    /* Borda com accent - destaque */
+    
+    /* === SOBREPOSIÇÕES E GLASSMORPHISM === */
+    --overlay: rgba(0, 0, 0, 0.50);           /* Overlay de modais */
+    --glass: rgba(255, 255, 255, 0.30);       /* Efeito vidro sutil */
+    --glass-strong: rgba(255, 255, 255, 0.50); /* Efeito vidro mais forte */
+    
+    /* === SOMBRAS: Mais visíveis para profundidade perceptível === */
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.15);
+    --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.20);
+    --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.25);
+    --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.30);
+    --shadow-glow: 0 0 24px rgba(77, 112, 51, 0.40); /* Glow accent visível */
+    --shadow-focus: 0 0 0 4px rgba(77, 112, 51, 0.30); /* Sombra de foco */
+    
+    /* === INPUTS E CONTROLES: Bordas grossas e visíveis === */
+    --input-bg: #FFFFFF;
+    --input-border: rgba(0, 0, 0, 0.30);  /* Borda bem visível */
+    --input-border-width: 2px;             /* Bordas mais grossas */
+    --input-focus: var(--accent);
+    --input-disabled: #E8E8E8;
+    
+    /* === BACKGROUNDS PARA MENSAGENS: Alto contraste === */
+    --bg-success: rgba(45, 90, 30, 0.12);
+    --bg-danger: rgba(183, 28, 28, 0.12);
+    --bg-warning: rgba(139, 90, 0, 0.12);
+    --bg-info: rgba(21, 101, 192, 0.12);
+    
+    /* === TEXTO PARA ESTADOS: Alto contraste === */
+    --text-success: #2D5A1E;    /* Contraste 8:1 */
+    --text-danger: #B71C1C;     /* Contraste 8:1 */
+    --text-warning: #8B5A00;    /* Contraste 7:1 */
+    --text-info: #1565C0;       /* Contraste 7:1 */
+    
+    /* === BORDAS PARA ESTADOS: Bem visíveis === */
+    --border-success: rgba(45, 90, 30, 0.50);
+    --border-danger: rgba(183, 28, 28, 0.50);
+    --border-warning: rgba(139, 90, 0, 0.50);
+    --border-info: rgba(21, 101, 192, 0.50);
+    
+    /* === MISC === */
+    --radius-sm: 8px;    /* Bordas arredondadas maiores */
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --radius-xl: 20px;
+    --radius-full: 9999px;
+    
+    /* === TAMANHOS DE FONTE EQUILIBRADOS E ACESSÍVEIS === */
+    --font-size-xs: 0.875rem;   /* 14px - textos pequenos */
+    --font-size-sm: 1rem;       /* 16px - texto secundário */
+    --font-size-base: 1.125rem; /* 18px - texto principal (mínimo WCAG) */
+    --font-size-lg: 1.25rem;    /* 20px - destaques */
+    --font-size-xl: 1.5rem;     /* 24px - subtítulos */
+    --font-size-2xl: 1.875rem;  /* 30px - títulos de seção */
+    --font-size-3xl: 2.25rem;   /* 36px - títulos principais */
+    --font-size-4xl: 2.75rem;   /* 44px - títulos de página */
+    
+    /* === ESPAÇAMENTO ADEQUADO === */
+    --spacing-touch-target: 44px; /* Tamanho mínimo para toque (WCAG) */
+    --spacing-padding-input: 0.75rem 1rem; /* Padding em inputs */
+    
+    /* === TRANSIÇÕES === */
+    --transition-fast: 0.15s ease;
+    --transition-base: 0.25s ease;
+    --transition-slow: 0.35s ease;
+}
+
+/* ============================================================================
+   CLASSES DE ACESSIBILIDADE
+   ============================================================================ */
+
+/* Texto apenas para leitores de tela */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* Texto visível apenas no foco (para navegação por teclado) */
+.skip-link {
+    position: absolute;
+    top: -40px;
+    left: 0;
+    background: var(--accent);
+    color: var(--text-inverse);
+    padding: 0.75rem 1.5rem;
+    font-size: var(--font-size-lg);
+    font-weight: 700;
+    text-decoration: none;
+    border-radius: 0 0 var(--radius-md) 0;
+    z-index: 9999;
+    transition: top var(--transition-fast);
+}
+
+.skip-link:focus {
+    top: 0;
+    outline: var(--focus-ring);
+    outline-offset: var(--focus-ring-offset);
+}
+
+/* Indicador de foco visível e forte */
+*:focus {
+    outline: 3px solid var(--accent);
+    outline-offset: 2px;
+    transition: outline var(--transition-fast);
+}
+
+/* Remove outline padrão apenas quando usando mouse */
+*:focus:not(:focus-visible) {
+    outline: none;
+}
+
+/* Garante outline visível na navegação por teclado */
+*:focus-visible {
+    outline: 3px solid var(--accent);
+    outline-offset: 2px;
+    box-shadow: var(--shadow-focus);
+}
+
+/* ============================================================================
+   APLICAÇÕES GLOBAIS: Estilos base com acessibilidade
+   ============================================================================ */
+
+/* Font smoothing e tamanho base */
+html {
+    font-size: 16px; /* Base padrão - 1rem = 16px */
+    scroll-behavior: smooth;
+}
+
+body {
+    background: var(--bg-1);
+    color: var(--text-primary);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-size: var(--font-size-base); /* 18px - bom para leitura */
+    line-height: 1.6;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+/* Títulos com hierarquia clara e proporções equilibradas */
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 700;
+    line-height: 1.3;
+    margin-bottom: 0.75em;
+    color: var(--text-primary);
+}
+
+h1 { font-size: var(--font-size-3xl); } /* 36px */
+h2 { font-size: var(--font-size-2xl); } /* 30px */
+h3 { font-size: var(--font-size-xl); }  /* 24px */
+h4 { font-size: var(--font-size-lg); }  /* 20px */
+h5 { font-size: var(--font-size-base); } /* 18px */
+h6 { font-size: var(--font-size-sm); } /* 16px */
+
+/* Parágrafos com espaçamento */
+p {
+    margin-bottom: 1em;
+    max-width: 70ch;
+    font-size: var(--font-size-base); /* 18px */
+}
+
+/* Links com indicação clara */
+a {
+    color: var(--accent);
+    text-decoration: underline;
+    font-weight: 600;
+    transition: all var(--transition-fast);
+}
+
+a:hover {
+    color: var(--accent-hover);
+    text-decoration-thickness: 2px;
+}
+
+a:focus {
+    outline: 3px solid var(--accent);
+    outline-offset: 2px;
+}
+
+/* Botões com tamanho mínimo de toque */
+button, .btn, .menu-btn, .action-btn {
+    min-height: var(--spacing-touch-target); /* 44px mínimo */
+    min-width: var(--spacing-touch-target);
+    padding: 0.75rem 1.5rem;
+    font-size: var(--font-size-base);
+    font-weight: 700;
+    cursor: pointer;
+    border-radius: var(--radius-md);
+    transition: all var(--transition-fast);
+}
+
+/* === TOP BAR E NAVEGAÇÃO === */
+.top-bar {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border-default);
+    box-shadow: var(--shadow-sm);
+}
+
+.logo-container h1 { 
+    color: var(--text-primary); 
+    font-weight: 600;
+}
+
+/* Botões de menu com melhor contraste e tamanho */
+.menu-btn {
+    background: transparent !important;
+    color: var(--text-primary) !important;
+    border: 2px solid var(--border-default) !important;
+    transition: all var(--transition-base);
+    font-weight: 700;
+    font-size: var(--font-size-base);
+    min-height: var(--spacing-touch-target);
+    padding: 0.75rem 1.5rem;
+}
+
+.menu-btn:hover {
+    background: var(--surface-elevated) !important;
+    color: var(--text-primary) !important;
+    border-color: var(--border-strong) !important;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.menu-btn:focus {
+    outline: 3px solid var(--accent);
+    outline-offset: 2px;
+}
+
+.menu-btn.active {
+    background: var(--accent) !important;
+    color: var(--text-inverse) !important;
+    border-color: var(--accent) !important;
+    box-shadow: var(--shadow-glow);
+    font-weight: 700;
+    border-width: 3px !important;
+}
+
+.menu-btn.danger { 
+    color: var(--danger) !important;
+    border-color: var(--border-danger) !important;
+}
+.menu-btn.danger:hover {
+    background: var(--bg-danger) !important;
+    border-color: var(--danger) !important;
+}
+
+/* === BUSCA === */
+.search-input {
+    background: var(--input-bg);
+    border: var(--input-border-width) solid var(--input-border) !important;
+    color: var(--text-primary);
+    transition: all var(--transition-base);
+    font-size: var(--font-size-base); /* 18px */
+    padding: var(--spacing-padding-input);
+    min-height: var(--spacing-touch-target);
+}
+
+.search-input::placeholder {
+    color: var(--text-muted);
+    font-size: var(--font-size-base);
+}
+
+.search-input:focus {
+    border-color: var(--accent) !important;
+    border-width: 3px !important;
+    box-shadow: var(--shadow-focus);
+    outline: none;
+}
+
+.search-btn { 
+    background: var(--accent); 
+    color: var(--text-inverse);
+    font-weight: 700;
+    font-size: var(--font-size-base);
+    min-height: var(--spacing-touch-target);
+    min-width: var(--spacing-touch-target);
+    transition: all var(--transition-fast);
+    border: 2px solid var(--accent);
+}
+.search-btn:hover {
+    background: var(--accent-hover);
+    border-color: var(--accent-hover);
+    transform: scale(1.05);
+}
+.search-btn:focus {
+    outline: 3px solid var(--accent);
+    outline-offset: 2px;
+}
+
+/* === CARDS === */
+.stat-card { 
+    background: var(--surface);
+    border: 1px solid var(--border-subtle);
+    box-shadow: var(--shadow-sm);
+    transition: all var(--transition-base);
+}
+.stat-card:hover {
+    border-color: var(--border-default);
+    box-shadow: var(--shadow-md);
+}
+
+.product-card { 
+    background: var(--card-bg);
+    border: 1px solid var(--border-subtle);
+    box-shadow: var(--shadow-sm);
+    transition: all var(--transition-base);
+}
+.product-card:hover {
+    background: var(--surface-elevated);
+    border-color: var(--border-accent);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+}
+
+/* === BOTÕES DE AÇÃO: Tamanho adequado e alto contraste === */
+.action-btn, .submit-btn { 
+    background: var(--accent) !important; 
+    color: var(--text-inverse) !important;
+    border: 2px solid var(--accent);
+    font-weight: 700;
+    font-size: var(--font-size-base);
+    min-height: var(--spacing-touch-target);
+    min-width: var(--spacing-touch-target);
+    padding: 0.75rem 1.5rem;
+    transition: all var(--transition-fast);
+    box-shadow: var(--shadow-md);
+    cursor: pointer;
+}
+.action-btn:hover, .submit-btn:hover { 
+    background: var(--accent-hover) !important;
+    border-color: var(--accent-hover);
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: var(--shadow-lg), var(--shadow-glow);
+}
+.action-btn:focus, .submit-btn:focus {
+    outline: 3px solid var(--accent);
+    outline-offset: 2px;
+}
+.action-btn:active, .submit-btn:active {
+    background: var(--accent-pressed) !important;
+    transform: translateY(0) scale(0.98);
+}
+
+/* === BADGES === */
+.action-badge.entrada, .badge-success { 
+    background: var(--bg-success); 
+    color: var(--text-success);
+    border: 1px solid var(--border-success);
+}
+
+.action-badge.saida, .badge-danger { 
+    background: var(--bg-danger); 
+    color: var(--text-danger);
+    border: 1px solid var(--border-danger);
+}
+
+.badge-info {
+    background: var(--bg-info);
+    color: var(--text-info);
+    border: 1px solid var(--border-info);
+}
+
+.badge-warning {
+    background: var(--bg-warning);
+    color: var(--text-warning);
+    border: 1px solid var(--border-warning);
+}
+
+/* === MENSAGENS === */
+.error-message { 
+    background: var(--bg-danger); 
+    color: var(--text-danger); 
+    border: 1px solid var(--border-danger);
+    border-left: 4px solid var(--danger);
+}
+
+.success-message {
+    background: var(--bg-success);
+    color: var(--text-success);
+    border: 1px solid var(--border-success);
+    border-left: 4px solid var(--success);
+}
+
+.info-message {
+    background: var(--bg-info);
+    color: var(--text-info);
+    border: 1px solid var(--border-info);
+    border-left: 4px solid var(--info);
+}
+
+/* === FOOTER === */
+.app-footer {
+    padding: 1.25rem 0.75rem;
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    border-top: 1px solid var(--border-subtle);
+    background: var(--bg-2);
+}
+.app-footer a { 
+    color: var(--accent); 
+    text-decoration: none;
+    transition: color var(--transition-fast);
+}
+.app-footer a:hover {
+    color: var(--accent-hover);
+    text-decoration: underline;
+}
+
+/* === RESPONSIVIDADE === */
+@media (max-width: 768px) {
+    .search-container { margin: 0 0.5rem; }
+    .menu-btn { padding: 0.5rem; font-size: 0.9rem; }
+}

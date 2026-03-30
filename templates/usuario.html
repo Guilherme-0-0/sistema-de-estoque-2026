@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="{{ 'es' if lang == 'es' else 'pt-br' }}">
+<head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{{ t('user_select_title') }}</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='style/usuario.css') }}">
+        <meta name="description" content="{{ t('user_select_title') }}">
+</head>
+<body>
+    <main class="container-principal" role="main" aria-labelledby="pergunta-tipo">
+        <h1 id="pergunta-tipo" class="texto-pergunta">{{ t('user_select_title') }}</h1>
+
+        <section class="grupo-botoes" aria-label="{{ t('user_select_title') }}">
+            <a class="area-botao botao-refeitorio" href="{{ url_for('retirada') }}" role="button" aria-pressed="false">
+                <span class="botao-titulo">{{ t('user_withdraw') }}</span>
+                <span class="botao-descricao">{{ t('user_withdraw_desc') }}</span>
+            </a>
+
+            <a class="area-botao botao-estoque" href="{{ url_for('home') }}" role="button" aria-pressed="false">
+                <span class="botao-titulo">{{ t('user_stock') }}</span>
+                <span class="botao-descricao">{{ t('user_stock_desc') }}</span>
+            </a>
+        </section>
+        
+        <!-- Language Switcher -->
+        <div class="language-switcher">
+            <a href="{{ url_for('change_language', lang='pt') }}" class="lang-btn {{ 'active' if lang == 'pt' else '' }}" aria-label="Português">
+                🇧🇷 PT
+            </a>
+            <a href="{{ url_for('change_language', lang='es') }}" class="lang-btn {{ 'active' if lang == 'es' else '' }}" aria-label="Español">
+                🇪🇸 ES
+            </a>
+        </div>
+    </main>
+</body>
+</html>

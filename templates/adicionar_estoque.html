@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="{{ 'es' if lang == 'es' else 'pt-br' }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ t('add_product_title') }} - {{ t('stock_management') }}</title>
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="{{ url_for('static', filename='img/LogoAtena.png') }}" type="image/x-icon">
+    
+    <!-- Estilos -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style/reset.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style/home.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style/adicionar_estoque.css') }}">
+</head>
+<body class="adicionar-page">
+    
+    <!-- Header com Menu e Busca -->
+    <header class="top-bar">
+        <div class="logo-container">
+            <img src="{{ url_for('static', filename='img/LogoAtena.png') }}" alt="Logo" class="logo">
+            <h1>{{ t('stock_management') }}</h1>
+        </div>
+        <div class="search-container" action="{{ url_for('home') }}" method="get" role="search" aria-label="{{ t('search_placeholder') }}">
+            <label for="searchInput" class="sr-only">{{ t('search_placeholder') }}</label>
+            <input id="searchInput" name="q" type="text" placeholder="{{ t('search_placeholder') }}" class="search-input" value="{{ request.args.get('q', '') }}">
+            <button class="search-btn" aria-label="{{ t('search_placeholder') }}"><i class="bi bi-search"></i></button>
+        </div>
+        <nav class="menu" role="navigation" aria-label="menu principal">
+            <a href="{{ url_for('home') }}" class="menu-btn" aria-label="{{ t('home') }}"><i class="bi bi-house-fill"></i> {{ t('home') }}</a>
+            <a href="{{ url_for('adicionar_produto') }}" class="menu-btn active" aria-label="{{ t('add_product') }}"><i class="bi bi-plus-circle"></i> {{ t('add_product') }}</a>
+            <a href="{{ url_for('retirada') }}" class="menu-btn" aria-label="{{ t('withdraw') }}"><i class="bi bi-box-arrow-left"></i> {{ t('withdraw') }}</a>
+            <a href="{{ url_for('historico') }}" class="menu-btn" aria-label="{{ t('view_history') }}"><i class="bi bi-clock-history"></i> {{ t('view_history') }}</a>
+            <a href="{{ url_for('logout') }}" class="menu-btn danger" aria-label="{{ t('logout') }}"><i class="bi bi-box-arrow-right"></i> {{ t('logout') }}</a>
+        </nav>
+        
+        <!-- Language Switcher -->
+        <div class="language-switcher">
+            <a href="{{ url_for('change_language', lang='pt') }}" class="lang-btn {{ 'active' if lang == 'pt' else '' }}">🇧🇷</a>
+            <a href="{{ url_for('change_language', lang='es') }}" class="lang-btn {{ 'active' if lang == 'es' else '' }}">🇪🇸</a>
+        </div>
+    </header>
+    
+    <div class="container">
+        <!-- FLASH MESSAGES -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <ul class="mb-4 p-3 rounded-lg">
+                {% for category, message in messages %}
+                    <li class="p-2 mb-1 rounded {% if category == 'success' %}bg-green-100 text-green-700{% elif category == 'error' %}bg-red-100 text-red-700{% endif %}">{{ message }}</li>
+                {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+
+        <!-- ELEMENTO PARA CAMINHO BASE (mantido para compatibilidade com o JS, mas agora oculto) -->
+        <div id="image-base-url" data-url="{{ url_for('static', filename='img/') }}" class="hidden"></div>
+        
+        <!-- CHECKBOX MODO RÁPIDO COM TOGGLE SWITCH -->
+        <div class="modo-rapido-container">
+            <div class="toggle-wrapper">
+                <input type="checkbox" id="modo_rapido_toggle" class="toggle-checkbox">
+                <label for="modo_rapido_toggle" class="toggle-label">
+                    <span class="toggle-slider"></span>
+                </label>
+                <div class="toggle-text">
+                    <span class="toggle-title">{{ t('quick_mode') }}</span>
+                    <span class="toggle-description">
+                        {{ t('quick_mode_desc') }}
+                    </span>
+                </div>
+            </div>
+        </div>
+        
+        <form id="form-adicionar-produto" method="POST" action="{{ url_for('adicionar_produto') }}" class="bg-white p-6 rounded-xl shadow-lg">
+            
+            <!-- Campo oculto que indica se está em modo rápido -->
+            <input type="hidden" id="modo_rapido" name="modo_rapido" value="off">
+            
+            <fieldset class="mb-6 p-4 border border-gray-200 rounded-lg">
+                <legend class="text-lg font-semibold text-gray-700 px-2">{{ t('product') }}</legend>
+                
+                <div class="form-group mb-4 campo-completo">
+                    <label for="produto_nome" class="block text-sm font-medium text-gray-700">{{ t('product_name') }} <span class="text-red-500">*</span></label>
+                    <input type="text" id="produto_nome" name="produto_nome" placeholder="{{ t('product_name_placeholder') }}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 border">
+                    <p class="text-xs text-gray-500 mt-1">{{ t('product_name_help_full') }}</p>
+                </div>
+
+                <div class="form-group mb-4 campo-completo">
+                    <label for="produto_tipo" class="block text-sm font-medium text-gray-700">
+                        {{ t('product_type') }}
+                        <span class="text-red-500">*</span>
+                        <span class="text-xs text-gray-500 block">{{ t('select_generic_type') }}</span>
+                    </label>
+                    <input type="text" 
+                           id="produto_tipo" 
+                           name="produto_tipo" 
+                           list="lista-tipos-produto"
+                           placeholder="{{ t('product_type_placeholder') }}" 
+                           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 border">
+                    <datalist id="lista-tipos-produto"></datalist>
+                    <p class="text-xs text-gray-500 mt-1">
+                        {{ t('product_type_desc') }}
+                    </p>
+                    
+                    <!-- Container para prévia da imagem -->
+                    <div id="image-preview-container" class="mt-4 p-4 border-2 border-dashed border-gray-300 rounded-lg">
+                        <img id="image-preview" src="" alt="{{ t('product_preview') }}" 
+                             class="mx-auto max-h-40 hidden">
+                        <p id="image-preview-placeholder" class="text-center text-gray-500">
+                            {{ t('select_product_type_image') }}
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- Campo oculto que é preenchido pelo JS e enviado para o Flask -->
+                <input type="hidden" id="image_path" name="image_path">
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="form-group mb-4">
+                        <label for="codigo_de_barras" class="block text-sm font-medium text-gray-700">
+                            {{ t('barcode') }}
+                            <span class="text-red-500">*</span>
+                            <span class="text-xs text-gray-500 block">{{ t('barcode_help') }}</span>
+                        </label>
+                        <input type="text" 
+                               id="codigo_de_barras" 
+                               name="codigo_de_barras" 
+                               placeholder="{{ t('barcode_placeholder') }}" 
+                               pattern="\d{8,13}" 
+                               required 
+                               aria-describedby="codigo-barras-help"
+                               class="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 border">
+                        <div id="codigo-barras-help" class="text-xs text-gray-500 mt-1">{{ t('barcode_numbers_only') }}</div>
+                    </div>
+                    
+                    <div class="form-group mb-4 campo-completo">
+                        <label for="lote" class="block text-sm font-medium text-gray-700">
+                            {{ t('batch') }}
+                            <span class="text-xs text-gray-500 block">{{ t('batch_help') }}</span>
+                        </label>
+                        <input type="text" 
+                               id="lote" 
+                               name="lote" 
+                               placeholder="{{ t('batch_placeholder') }}" 
+                               maxlength="10" 
+                               pattern="[A-Za-z0-9]{1,10}"
+                               aria-describedby="lote-help"
+                               class="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 border">
+                        <div id="lote-help" class="text-xs text-gray-500 mt-1">{{ t('batch_optional') }}</div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="form-group mb-4">
+                        <label for="quantidade" class="block text-sm font-medium text-gray-700">
+                            {{ t('quantity') }}
+                            <span class="text-red-500">*</span>
+                            <span class="text-xs text-gray-500 block">{{ t('quantity_help') }}</span>
+                        </label>
+                        <input type="number" 
+                               id="quantidade" 
+                               name="quantidade" 
+                               min="1" 
+                               max="9999" 
+                               placeholder="{{ t('quantity_placeholder') }}" 
+                               required 
+                               aria-describedby="quantidade-help"
+                               class="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 border">
+                        <div id="quantidade-help" class="text-xs text-gray-500 mt-1">{{ t('quantity_must_be_positive') }}</div>
+                    </div>
+
+                    <div class="form-group mb-4 campo-completo">
+                        <label for="categoria" class="block text-sm font-medium text-gray-700">{{ t('category') }} <span class="text-red-500">*</span></label>
+                        <select id="categoria" name="categoria" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 border bg-white">
+                            <option value="" disabled selected>{{ t('select_category') }}</option>
+                            <option value="1">{{ t('category_1') }}</option>
+                            <option value="2">{{ t('category_2') }}</option>
+                            <option value="3">{{ t('category_3') }}</option>
+                            <option value="4">{{ t('category_4') }}</option>
+                            <option value="5">{{ t('category_5') }}</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <!-- CAMPO DE DATA DE VALIDADE APRIMORADO -->
+                <div class="form-group mb-4">
+                    <label for="validade" class="block text-sm font-medium text-gray-700">{{ t('expiration_date') }} <span class="text-red-500">*</span></label>
+                    <p class="text-xs text-gray-500 mt-1 mb-2">
+                        <i class="bi bi-info-circle"></i>
+                        {% if lang == 'es' %}
+                            Haga clic en el icono del calendario para seleccionar la fecha
+                        {% else %}
+                            Clique no ícone do calendário para selecionar a data
+                        {% endif %}
+                    </p>
+                    <div class="date-wrapper mt-1">
+                        <!-- input de data único; o JS decide se será readonly ou não -->
+                        <input type="date" id="validade" name="validade" required title="{{ t('date_cannot_be_past') }}" class="block w-full rounded-md border-gray-300 shadow-sm border p-2">
+                        <button type="button" id="validade-btn" class="date-btn" aria-label="{% if lang == 'es' %}Abrir calendario{% else %}Abrir calendário{% endif %}">
+                            <i class="bi bi-calendar-event" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </div>
+                <!-- FIM DO CAMPO DE DATA APRIMORADO -->
+
+            </fieldset>
+            
+            <button type="submit" class="w-full py-2 px-4 bg-indigo-600 text-white font-semibold rounded-lg shadow-md hover:bg-indigo-700 transition duration-150">
+                {{ t('add_to_stock') }}
+            </button>
+        </form>
+    </div>
+    
+    <!-- Carrega o JS que fará a atualização do campo oculto -->
+    <script type="module" src="{{ url_for('static', filename='scripts/adicionar_estoque.js') }}"></script>
+</body>
+</html>

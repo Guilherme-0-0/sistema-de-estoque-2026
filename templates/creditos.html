@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Créditos - Atena Maker</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style/reset.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style/creditos.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style/palette_modern.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+</head>
+<body>
+    <!-- Background animado com partículas -->
+    <canvas id="particles-canvas"></canvas>
+    
+    <!-- Overlay com gradiente -->
+    <div class="gradient-overlay"></div>
+
+    <!-- Botão de voltar -->
+    <a href="/home" class="back-button">
+        <i class="bi bi-arrow-left"></i>
+        <span>Voltar</span>
+    </a>
+
+    <!-- Container principal -->
+    <div class="credits-container">
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <div class="hero-content">
+                <div class="logo-wrapper">
+                    <img src="{{ url_for('static', filename='img/LogoAtena.png') }}" alt="Atena Maker Logo" class="hero-logo">
+                </div>
+                <h1 class="main-title">
+                    <span class="title-line">ATENA</span>
+                    <span class="title-line">MAKER</span>
+                </h1>
+                <div class="subtitle-wrapper">
+                    <div class="line"></div>
+                    <p class="subtitle">Sistema de Gestão de Estoque</p>
+                    <div class="line"></div>
+                </div>
+            </div>
+            <div class="scroll-indicator">
+                <i class="bi bi-chevron-down"></i>
+            </div>
+        </section>
+
+        <!-- Seção do Professor/Tutor -->
+        <section class="team-section tutor-section">
+            <div class="section-header">
+                <i class="bi bi-mortarboard-fill section-icon"></i>
+                <h2 class="section-title">Professor & Tutor</h2>
+            </div>
+            <div class="team-grid tutor-grid">
+                <div class="member-card spotlight-card" data-aos="fade-up">
+                    <div class="card-glow"></div>
+                    <div class="card-content">
+                        <div class="avatar-wrapper">
+                            <div class="avatar">
+                                <i class="bi bi-person-fill"></i>
+                            </div>
+                            <div class="avatar-ring"></div>
+                        </div>
+                        <h3 class="member-name">Caio</h3>
+                        <p class="member-role">Professor & Tutor</p>
+                        <div class="member-stars">
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Gestão -->
+        <section class="team-section">
+            <div class="section-header">
+                <i class="bi bi-briefcase-fill section-icon"></i>
+                <h2 class="section-title">Equipe de Gestão</h2>
+            </div>
+            <div class="team-grid">
+                <div class="member-card leader-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="card-glow"></div>
+                    <div class="card-content">
+                        <div class="leader-badge">
+                            <i class="bi bi-star-fill"></i>
+                            <span>Líder</span>
+                        </div>
+                        <div class="avatar-wrapper">
+                            <div class="avatar">
+                                <i class="bi bi-person-fill"></i>
+                            </div>
+                        </div>
+                        <h3 class="member-name">Gustavo</h3>
+                        <p class="member-role">Líder de Gestão</p>
+                    </div>
+                </div>
+                <div class="member-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="card-content">
+                        <div class="avatar-wrapper">
+                            <div class="avatar">
+                                <i class="bi bi-person-fill"></i>
+                            </div>
+                        </div>
+                        <h3 class="member-name">Eduarda</h3>
+                        <p class="member-role">Gestão</p>
+                    </div>
+                </div>
+                <div class="member-card" data-aos="fade-up" data-aos-delay="300">
+                    <div class="card-content">
+                        <div class="avatar-wrapper">
+                            <div class="avatar">
+                                <i class="bi bi-person-fill"></i>
+                            </div>
+                        </div>
+                        <h3 class="member-name">Isabela</h3>
+                        <p class="member-role">Gestão</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- UI/UX -->
+        <section class="team-section">
+            <div class="section-header">
+                <i class="bi bi-palette-fill section-icon"></i>
+                <h2 class="section-title">Equipe de UI/UX</h2>
+            </div>
+            <div class="team-grid">
+                <div class="member-card leader-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="card-glow"></div>
+                    <div class="card-content">
+                        <div class="leader-badge">
+                            <i class="bi bi-star-fill"></i>
+                            <span>Líder</span>
+                        </div>
+                        <div class="avatar-wrapper">
+                            <div class="avatar">
+                                <i class="bi bi-person-fill"></i>
+                            </div>
+                        </div>
+                        <h3 class="member-name">Eduardo</h3>
+                        <p class="member-role">Líder de UI/UX</p>
+                    </div>
+                </div>
+                <div class="member-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="card-content">
+                        <div class="avatar-wrapper">
+                            <div class="avatar">
+                                <i class="bi bi-person-fill"></i>
+                            </div>
+                        </div>
+                        <h3 class="member-name">Xande</h3>
+                        <p class="member-role">UI/UX Designer</p>
+                    </div>
+                </div>
+                <div class="member-card" data-aos="fade-up" data-aos-delay="300">
+                    <div class="card-content">
+                        <div class="avatar-wrapper">
+                            <div class="avatar">
+                                <i class="bi bi-person-fill"></i>
+                            </div>
+                        </div>
+                        <h3 class="member-name">Thiago</h3>
+                        <p class="member-role">UI/UX Designer</p>
+                    </div>
+                </div>
+                <div class="member-card" data-aos="fade-up" data-aos-delay="400">
+                    <div class="card-content">
+                        <div class="avatar-wrapper">
+                            <div class="avatar">
+                                <i class="bi bi-person-fill"></i>
+                            </div>
+                        </div>
+                        <h3 class="member-name">Juan</h3>
+                        <p class="member-role">UI/UX Designer</p>
+                    </div>
+                </div>
+                <div class="member-card" data-aos="fade-up" data-aos-delay="500">
+                    <div class="card-content">
+                        <div class="avatar-wrapper">
+                            <div class="avatar">
+                                <i class="bi bi-person-fill"></i>
+                            </div>
+                        </div>
+                        <h3 class="member-name">Pessoa 1</h3>
+                        <p class="member-role">UI/UX Designer</p>
+                    </div>
+                </div>
+                <div class="member-card" data-aos="fade-up" data-aos-delay="600">
+                    <div class="card-content">
+                        <div class="avatar-wrapper">
+                            <div class="avatar">
+                                <i class="bi bi-person-fill"></i>
+                            </div>
+                        </div>
+                        <h3 class="member-name">Pessoa 2</h3>
+                        <p class="member-role">UI/UX Designer</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Desenvolvedores -->
+        <section class="team-section">
+            <div class="section-header">
+                <i class="bi bi-code-slash section-icon"></i>
+                <h2 class="section-title">Desenvolvedores</h2>
+            </div>
+            <div class="team-grid">
+                <div class="member-card leader-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="card-glow"></div>
+                    <div class="card-content">
+                        <div class="leader-badge">
+                            <i class="bi bi-star-fill"></i>
+                            <span>Líder</span>
+                        </div>
+                        <div class="avatar-wrapper">
+                            <div class="avatar">
+                                <i class="bi bi-person-fill"></i>
+                            </div>
+                        </div>
+                        <h3 class="member-name">Guilherme</h3>
+                        <p class="member-role">Líder de Desenvolvimento</p>
+                    </div>
+                </div>
+                <div class="member-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="card-content">
+                        <div class="avatar-wrapper">
+                            <div class="avatar">
+                                <i class="bi bi-person-fill"></i>
+                            </div>
+                        </div>
+                        <h3 class="member-name">Fernando</h3>
+                        <p class="member-role">Desenvolvedor</p>
+                    </div>
+                </div>
+                <div class="member-card" data-aos="fade-up" data-aos-delay="300">
+                    <div class="card-content">
+                        <div class="avatar-wrapper">
+                            <div class="avatar">
+                                <i class="bi bi-person-fill"></i>
+                            </div>
+                        </div>
+                        <h3 class="member-name">Nicolas</h3>
+                        <p class="member-role">Desenvolvedor</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Documentação -->
+        <section class="team-section">
+            <div class="section-header">
+                <i class="bi bi-file-text-fill section-icon"></i>
+                <h2 class="section-title">Equipe de Documentação</h2>
+            </div>
+            <div class="team-grid">
+                <div class="member-card leader-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="card-glow"></div>
+                    <div class="card-content">
+                        <div class="leader-badge">
+                            <i class="bi bi-star-fill"></i>
+                            <span>Líder</span>
+                        </div>
+                        <div class="avatar-wrapper">
+                            <div class="avatar">
+                                <i class="bi bi-person-fill"></i>
+                            </div>
+                        </div>
+                        <h3 class="member-name">Davi</h3>
+                        <p class="member-role">Líder de Documentação</p>
+                    </div>
+                </div>
+                <div class="member-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="card-content">
+                        <div class="avatar-wrapper">
+                            <div class="avatar">
+                                <i class="bi bi-person-fill"></i>
+                            </div>
+                        </div>
+                        <h3 class="member-name">Rian</h3>
+                        <p class="member-role">Documentação</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Marketing -->
+        <section class="team-section">
+            <div class="section-header">
+                <i class="bi bi-megaphone-fill section-icon"></i>
+                <h2 class="section-title">Marketing</h2>
+            </div>
+            <div class="team-grid">
+                <div class="member-card spotlight-card" data-aos="fade-up">
+                    <div class="card-glow"></div>
+                    <div class="card-content">
+                        <div class="avatar-wrapper">
+                            <div class="avatar">
+                                <i class="bi bi-person-fill"></i>
+                            </div>
+                            <div class="avatar-ring"></div>
+                        </div>
+                        <h3 class="member-name">Alana</h3>
+                        <p class="member-role">Marketing</p>
+                        <div class="member-stars">
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer especial -->
+        <section class="footer-section">
+            <div class="footer-content">
+                <div class="thank-you">
+                    <h2>Obrigado por fazer parte</h2>
+                    <p>deste projeto incrível!</p>
+                </div>
+                <div class="footer-logo">
+                    <img src="{{ url_for('static', filename='img/LogoAtena.png') }}" alt="Atena Maker">
+                </div>
+                <div class="copyright">
+                    <p>&copy; 2025 Atena Maker. Todos os direitos reservados.</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script src="{{ url_for('static', filename='scripts/creditos.js') }}"></script>
+</body>
+</html>

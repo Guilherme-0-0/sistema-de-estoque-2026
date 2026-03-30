@@ -1,0 +1,282 @@
+/* Estilos específicos para a página de retirada */
+@import url('/static/style/palette_modern.css');
+
+.scanner-container {
+    background: var(--surface);
+    border-radius: var(--radius-lg);
+    padding: 2.2rem;
+    box-shadow: var(--shadow-xl);
+    max-width: 620px;
+    margin: 2rem auto;
+    text-align: center;
+    border: 1px solid var(--border-default);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.scanner-icon {
+    font-size: 4rem;
+    color: var(--accent);
+    margin-bottom: 1.5rem;
+    display: flex;
+    justify-content: center;
+}
+
+.scanner-icon i {
+    animation: scan 2s infinite;
+}
+
+@keyframes scan {
+    0% {
+        opacity: 0.5;
+        transform: translateY(-10px);
+    }
+    50% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    100% {
+        opacity: 0.5;
+        transform: translateY(-10px);
+    }
+}
+
+#form-retirada {
+    width: 100%;
+    max-width: 440px;
+    margin: 0 auto;
+}
+
+.input-group {
+    margin-bottom: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--text-primary);
+    font-weight: 500;
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0,0,0,0);
+    border: 0;
+}
+
+.scanner-input,
+.date-input {
+    width: 100%;
+    padding: 1.1rem;
+    font-size: 1.3rem;
+    border: 2px solid var(--input-border);
+    border-radius: var(--radius-md);
+    background: var(--input-bg);
+    color: var(--text-primary);
+    text-align: center;
+    transition: all var(--transition-fast) ease;
+}
+
+.scanner-input:focus,
+.date-input:focus {
+    outline: none;
+    border-color: var(--input-focus);
+    background: var(--surface-elevated);
+    box-shadow: 0 0 0 4px var(--accent-glow);
+}
+
+.submit-btn {
+    background: var(--accent);
+    color: var(--bg-1);
+    border: none;
+    padding: 1rem 1.4rem;
+    font-size: 1.08rem;
+    font-weight: 700;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin: 1rem auto 0;
+    box-shadow: var(--shadow-md);
+    transition: all var(--transition-fast);
+}
+
+.submit-btn:hover { 
+    background: var(--accent-hover);
+    transform: translateY(-2px); 
+    box-shadow: var(--shadow-lg), var(--shadow-glow);
+}
+.submit-btn:active {
+    background: var(--accent-pressed);
+    transform: translateY(0);
+    box-shadow: var(--shadow-sm);
+}
+
+/* Texto instrucional para seleção de validade */
+.validade-instruction {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    font-weight: 500;
+    margin-bottom: 1rem;
+    padding: 0.75rem 1rem;
+    background: var(--surface-elevated);
+    border-left: 3px solid var(--accent);
+    border-radius: var(--radius-sm);
+}
+
+.validade-instruction i {
+    color: var(--accent);
+    font-size: 1.1rem;
+}
+
+/* Estilos para lista de validades (botões) */
+.validade-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+}
+
+.validade-btn {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 18px;
+    border-radius: var(--radius-md);
+    border: 2px solid var(--accent);
+    background: var(--accent);
+    color: var(--bg-1);
+    font-size: 1.05rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: left;
+    transition: all var(--transition-fast);
+    box-shadow: var(--shadow-md);
+    position: relative;
+    overflow: hidden;
+}
+
+.validade-btn::before {
+    content: '📦';
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.5rem;
+    opacity: 0.3;
+}
+
+.validade-btn:hover { 
+    background: var(--accent-hover);
+    border-color: var(--accent-hover);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg), var(--shadow-glow);
+}
+.validade-btn:active { 
+    background: var(--accent-pressed);
+    transform: translateY(0);
+    box-shadow: var(--shadow-sm);
+}
+.validade-btn .btn-title { font-weight: 700; }
+.validade-btn .btn-sub { font-size: 0.9rem; opacity: 0.9; }
+
+/* Botão Voltar - estilo vermelho (mesmo tom do botão danger/sair) */
+.btn-voltar {
+    background: var(--bg-danger);
+    color: var(--text-danger);
+    border: 2px solid var(--border-danger);
+    padding: 1rem 1.6rem;
+    font-size: 1.08rem;
+    font-weight: 700;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin: 1rem auto 0;
+    box-shadow: var(--shadow-md);
+    transition: all var(--transition-fast);
+}
+
+.btn-voltar:hover {
+    background: var(--danger);
+    color: var(--text-inverse);
+    border-color: var(--danger);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(183, 28, 28, 0.4);
+}
+
+.btn-voltar:active {
+    background: var(--danger);
+    color: var(--text-inverse);
+    transform: translateY(0);
+    box-shadow: var(--shadow-sm);
+}
+
+.error-message {
+    background: var(--bg-danger);
+    color: var(--text-danger);
+    border: 1px solid var(--border-danger);
+    padding: 1.1rem;
+    border-radius: var(--radius-md);
+    margin: 1rem auto;
+    max-width: 620px;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    border: 1px solid rgba(255,68,68,0.08);
+}
+
+.instructions {
+    background: var(--surface-elevated);
+    border-radius: var(--radius-md);
+    padding: 1.6rem;
+    max-width: 700px;
+    margin: 2rem auto;
+    border: 1px solid var(--border-subtle);
+}
+
+.instructions h2 {
+    display:flex; align-items:center; gap:0.5rem; color:var(--text-primary); margin-bottom:1rem;
+}
+
+.instructions ol { list-style-position: inside; color: var(--text-muted); }
+
+.instructions li { margin:0.5rem 0; padding-left:1rem; }
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .scanner-container {
+        margin: 1rem;
+        padding: 1rem;
+    }
+
+    .scanner-icon {
+        font-size: 3rem;
+    }
+
+    .scanner-input,
+    .date-input {
+        font-size: 1rem;
+        padding: 0.75rem;
+    }
+
+    .instructions {
+        margin: 1rem;
+    }
+}

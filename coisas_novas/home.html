@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - Estoque</title>
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="{{ url_for('static', filename='img/LogoAtena.png') }}" type="image/x-icon">
+
+    <!-- Estilos -->
+    <link rel="stylesheet" href="../static/style/reset.css">
+    <link rel="stylesheet" href="style_test.css">
+</head>
+<body>
+
+    <!-- Fundo principal -->
+    <div class="fundo">
+
+        <!-- Retângulo superior com 6 botões -->
+        <div class="retangulo">
+            <button type="number">Botão 1</button>
+            <button type="number">Botão 2</button>
+            <button>Botão 3</button>
+            <button>Botão 4</button>
+            <button>Botão 5</button>
+            <button>Botão 6</button>
+        </div>
+
+        <!-- Área das caixas principais -->
+        <div style="display:flex; gap: 20px; margin-top: 20px; justify-content: center; align-items: flex-start; flex-wrap: wrap;">
+
+            <!-- Primeira caixa -->
+            <div class="caixa">
+                {% for produto in produtos_caixa1 %}
+                    <div class="item">{{ produto.nome }}</div>
+                {% endfor %}
+            </div>
+
+            <!-- Segunda caixa -->
+            <div class="caixa2">
+                {% for produto in produtos_caixa2 %}
+                    <div class="item">{{ produto.nome }}</div>
+                {% endfor %}
+            </div>
+
+        </div>
+
+        <!-- Retângulo lateral direita -->
+        <div class="retangulo2">
+            {% for item in itens_lateral %}
+                <div class="item">{{ item.nome }}</div>
+            {% endfor %}
+        </div>
+
+    </div>
+
+    <!-- Scripts -->
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+
+</body>
+</html>
+
+
+

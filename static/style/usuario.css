@@ -1,0 +1,162 @@
+@import url('/static/style/palette_modern.css');
+
+/* Página de seleção de usuário - estilos modernos e acessíveis */
+
+html, body { height: 100%; margin: 0; font-family: 'Fira Sans', system-ui, -apple-system, 'Segoe UI', Roboto, Arial; }
+body { background: var(--bg-1); color: var(--text-primary); -webkit-font-smoothing: antialiased; }
+
+.container-principal { 
+    max-width: 1000px; 
+    margin: 36px auto; 
+    padding: 24px; 
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    box-sizing: border-box; 
+}
+
+.texto-pergunta { 
+    font-size: var(--font-size-3xl); 
+    margin-bottom: 24px; 
+    color: var(--text-primary); 
+    font-weight: 800; 
+    text-align: center; 
+    letter-spacing: -0.02em;
+}
+
+.grupo-botoes { 
+    display: flex; 
+    gap: 28px; 
+    width: 100%; 
+    justify-content: center; 
+    align-items: center; 
+}
+
+.area-botao { 
+    display: inline-flex; 
+    align-items: center; 
+    justify-content: center; 
+    min-width: 280px; 
+    height: 150px; 
+    border-radius: var(--radius-lg); 
+    text-decoration: none; 
+    color: var(--text-primary); 
+    font-weight: 800; 
+    box-shadow: var(--shadow-xl); 
+    border: 3px solid var(--border-default); 
+    transition: transform var(--transition-base) ease, box-shadow var(--transition-base) ease; 
+    background: var(--surface);
+}
+
+.area-botao:focus { 
+    outline: 3px solid var(--accent);
+    outline-offset: 2px;
+    box-shadow: var(--shadow-xl), 0 0 0 6px var(--accent-glow); 
+}
+
+.area-botao:hover { 
+    transform: translateY(-6px); 
+    box-shadow: var(--shadow-xl), var(--shadow-glow);
+    border-color: var(--accent);
+}
+
+.botao-refeitorio { 
+    background: var(--surface-elevated); 
+    color: var(--accent); 
+}
+
+.botao-estoque { 
+    background: var(--surface-elevated); 
+    color: var(--accent); 
+}
+
+.botao-titulo { 
+    font-size: var(--font-size-2xl); 
+    padding: 0 12px;
+    display: block;
+}
+
+.botao-descricao {
+    font-size: var(--font-size-sm);
+    opacity: 0.8;
+    display: block;
+    margin-top: 0.5rem;
+    font-weight: 400;
+}
+
+/* Language Switcher */
+.language-switcher {
+    position: fixed;
+    top: 2rem;
+    right: 2rem;
+    display: flex;
+    gap: 0.75rem;
+    z-index: 1000;
+}
+
+.lang-btn {
+    padding: 0.75rem 1.25rem;
+    background: var(--surface-elevated);
+    color: var(--text-primary);
+    text-decoration: none;
+    border-radius: var(--radius-md);
+    border: 2px solid var(--border-default);
+    font-weight: 700;
+    font-size: var(--font-size-sm);
+    transition: all var(--transition-fast);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    box-shadow: var(--shadow-sm);
+}
+
+.lang-btn:hover {
+    background: var(--accent);
+    border-color: var(--accent-hover);
+    color: var(--bg-1);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md), var(--shadow-glow);
+}
+
+.lang-btn.active {
+    background: var(--accent);
+    border-color: var(--accent-hover);
+    color: var(--bg-1);
+    box-shadow: var(--shadow-glow);
+}
+
+/* Make sure the anchor behaves like a button for accessibility */
+.area-botao[role="button"] { cursor: pointer; }
+
+@media (max-width: 920px) {
+  .grupo-botoes { flex-direction: column; gap: 1.25rem; }
+  .area-botao { width: 92%; max-width: 520px; min-width: auto; height: 150px; }
+  .texto-pergunta { font-size: var(--font-size-2xl); }
+  .botao-titulo { font-size: var(--font-size-xl); }
+  .botao-descricao { font-size: var(--font-size-xs); }
+  
+  .language-switcher {
+    top: 1rem;
+    right: 1rem;
+  }
+  
+  .lang-btn {
+    padding: 0.5rem 0.75rem;
+    font-size: var(--font-size-xs);
+  }
+}
+
+@media (min-width: 1200px) {
+  .texto-pergunta { font-size: var(--font-size-4xl); }
+  .area-botao { height: 190px; min-width: 320px; }
+  .botao-titulo { font-size: var(--font-size-3xl); }
+  .botao-descricao { font-size: var(--font-size-base); }
+}
+
+/* Small visual helpers */
+.area-botao .botao-sub { 
+    font-size: var(--font-size-base); 
+    opacity: 0.85; 
+    display: block; 
+    margin-top: 8px; 
+}

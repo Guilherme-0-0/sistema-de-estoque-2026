@@ -1,0 +1,638 @@
+/* Estilos específicos para a página de histórico - harmonizados com palette_modern */
+@import url('/static/style/palette_modern.css');
+
+.top-bar {
+  background: var(--surface);
+  padding: 0.75rem 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  border-bottom: 1px solid var(--border-default);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  margin-bottom: 1.5rem;
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-shrink: 0;
+}
+
+.logo-container img {
+  height: 40px;
+  width: auto;
+}
+
+.logo-container h1 {
+  font-size: var(--font-size-xl);
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+  white-space: nowrap;
+}
+
+/* ============================================================================
+   MENU DE NAVEGAÇÃO
+   ============================================================================ */
+
+.menu {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.menu-btn {
+  padding: 0.6rem 1rem;
+  border: 2px solid var(--border-default);
+  border-radius: var(--radius-md);
+  background: transparent;
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all var(--transition-fast) ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  text-decoration: none;
+  min-height: 42px;
+  white-space: nowrap;
+  font-family: inherit;
+}
+
+.menu-btn:hover { 
+  background: var(--surface-elevated); 
+  border-color: var(--accent);
+}
+
+.menu-btn.active { 
+  background: var(--accent); 
+  border-color: var(--accent-hover); 
+  color: var(--bg-1); 
+  box-shadow: var(--shadow-md), var(--shadow-glow); 
+}
+
+.menu-btn.danger { 
+  color: var(--text-danger); 
+  border-color: var(--border-danger); 
+}
+
+.menu-btn.danger:hover {
+  background: var(--bg-danger);
+}
+
+/* ============================================================================
+   LANGUAGE SWITCHER
+   ============================================================================ */
+
+.language-switcher {
+  display: flex;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+.lang-btn {
+  padding: 0.5rem 0.75rem;
+  background: var(--surface-elevated);
+  color: var(--text-primary);
+  text-decoration: none;
+  border-radius: var(--radius-md);
+  border: 2px solid var(--border-default);
+  font-weight: 600;
+  font-size: var(--font-size-lg);
+  transition: all var(--transition-fast);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 42px;
+  min-height: 42px;
+  line-height: 1;
+}
+
+.lang-btn:hover {
+  background: var(--accent);
+  border-color: var(--accent-hover);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
+}
+
+.lang-btn.active {
+  background: var(--accent);
+  border-color: var(--accent-hover);
+  box-shadow: var(--shadow-glow);
+}
+
+/* Controles Superiores */
+.top-controls {
+    background: var(--surface);
+    padding: 1.5rem;
+    border-radius: var(--radius-lg);
+    margin-bottom: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1.5rem;
+    border: 1px solid var(--border-default);
+    box-shadow: var(--shadow-sm);
+}
+
+.date-selector {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex: 1;
+    min-width: 300px;
+}
+
+.date-selector label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    font-size: 1rem;
+    white-space: nowrap;
+}
+
+.date-selector label i {
+    font-size: 1.2rem;
+    color: var(--accent);
+}
+
+.date-selector select {
+    flex: 1;
+    padding: 0.75rem 1rem;
+    border: 2px solid var(--input-border);
+    border-radius: var(--radius-md);
+    background: var(--input-bg);
+    color: var(--text-primary);
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    min-width: 200px;
+}
+
+.date-selector select:hover {
+    border-color: var(--accent);
+}
+
+.date-selector select:focus {
+    outline: none;
+    border-color: var(--input-focus);
+    box-shadow: 0 0 0 4px var(--accent-glow);
+}
+
+.export-btn {
+    background: var(--accent);
+    color: var(--bg-1);
+    border: none;
+    padding: 0.85rem 1.5rem;
+    border-radius: var(--radius-md);
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    transition: all var(--transition-fast);
+    box-shadow: var(--shadow-md);
+    white-space: nowrap;
+}
+
+.export-btn:hover {
+    background: var(--accent-hover);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+.export-btn:active {
+    background: var(--accent-pressed);
+    transform: translateY(0);
+}
+
+.export-btn i {
+    font-size: 1.2rem;
+}
+
+/* Seletor de Período */
+.period-selector {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex: 1;
+    min-width: 300px;
+}
+
+.period-selector label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    font-size: 1rem;
+    white-space: nowrap;
+}
+
+.period-selector label i {
+    font-size: 1.2rem;
+    color: var(--accent);
+}
+
+.period-selector select {
+    flex: 1;
+    padding: 0.75rem 1rem;
+    border: 2px solid var(--input-border);
+    border-radius: var(--radius-md);
+    background: var(--input-bg);
+    color: var(--text-primary);
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    min-width: 250px;
+}
+
+.period-selector select:hover {
+    border-color: var(--accent);
+}
+
+.period-selector select:focus {
+    outline: none;
+    border-color: var(--input-focus);
+    box-shadow: 0 0 0 4px var(--accent-glow);
+}
+
+/* Date Picker Customizado */
+.custom-date-picker {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-shrink: 0;
+}
+
+.custom-date-picker label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    font-size: 1rem;
+    white-space: nowrap;
+}
+
+.custom-date-picker label i {
+    font-size: 1.2rem;
+    color: var(--accent);
+}
+
+.custom-date-picker input[type="date"] {
+    padding: 0.75rem 1rem;
+    border: 2px solid var(--input-border);
+    border-radius: var(--radius-md);
+    background: var(--input-bg);
+    color: var(--text-primary);
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    min-width: 180px;
+}
+
+.custom-date-picker input[type="date"]:hover {
+    border-color: var(--accent);
+}
+
+.custom-date-picker input[type="date"]:focus {
+    outline: none;
+    border-color: var(--input-focus);
+    box-shadow: 0 0 0 4px var(--accent-glow);
+}
+
+/* Info do Período */
+.period-info {
+    background: var(--surface-elevated);
+    padding: 1rem 1.5rem;
+    border-radius: var(--radius-md);
+    margin-bottom: 1.5rem;
+    border-left: 4px solid var(--accent);
+    box-shadow: var(--shadow-sm);
+}
+
+.info-badge {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: var(--text-primary);
+    font-size: 1rem;
+}
+
+.info-badge i {
+    font-size: 1.3rem;
+    color: var(--accent);
+    flex-shrink: 0;
+}
+
+.info-badge strong {
+    color: var(--accent);
+    font-weight: 700;
+}
+
+/* Painel de Filtros */
+.filters-panel {
+    background: var(--surface);
+    padding: 1.2rem;
+    border-radius: var(--radius-md);
+    margin-bottom: 1.6rem;
+    display: flex;
+    gap: 1.1rem;
+    flex-wrap: wrap;
+    align-items: center;
+    border: 1px solid var(--border-default);
+}
+
+.filter-group {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.filter-group label {
+    font-weight: 600;
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    white-space: nowrap;
+}
+
+.filter-input {
+    padding: 0.75rem 1rem;
+    border: 2px solid var(--input-border);
+    border-radius: var(--radius-md);
+    font-size: 1rem;
+    background: var(--input-bg);
+    color: var(--text-primary);
+    transition: all var(--transition-fast);
+    min-width: 150px;
+}
+
+.filter-input:focus {
+    outline: none;
+    border-color: var(--input-focus);
+    background: var(--surface-elevated);
+    box-shadow: 0 0 0 4px var(--accent-glow);
+}
+
+.filter-btn {
+    background: var(--accent);
+    color: var(--bg-1);
+    border: none;
+    padding: 0.75rem 1.25rem;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: var(--font-size-sm);
+    font-weight: 700;
+    box-shadow: var(--shadow-sm);
+    transition: all var(--transition-fast);
+    min-height: var(--spacing-touch-target);
+}
+
+.filter-btn:hover { 
+    background: var(--accent-hover); 
+    box-shadow: var(--shadow-md);
+}
+.filter-btn:active {
+    background: var(--accent-pressed);
+    box-shadow: var(--shadow-sm);
+}
+
+/* Tabela de histórico */
+.history-list {
+    background: var(--surface);
+    border-radius: var(--radius-md);
+    padding: 1.2rem;
+    box-shadow: var(--shadow-lg);
+    border: 1px solid var(--border-default);
+}
+
+.history-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 1rem;
+}
+
+.history-table th,
+.history-table td {
+    padding: 0.85rem 1.1rem;
+    text-align: left;
+    border-bottom: 2px solid var(--border-subtle);
+    color: var(--text-primary);
+    font-size: var(--font-size-sm);
+}
+
+.history-table th {
+    font-weight: 700;
+    background: var(--surface-elevated);
+    color: var(--text-primary);
+    font-size: var(--font-size-sm);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.movement-row:hover {
+    background: var(--surface-elevated);
+    cursor: pointer;
+}
+
+/* Coluna de motivo */
+.motivo-cell {
+    max-width: 300px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-style: italic;
+    color: var(--text-muted);
+}
+
+.motivo-cell:hover {
+    white-space: normal;
+    word-wrap: break-word;
+}
+
+/* Badges de ação */
+.action-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.4rem 0.75rem;
+    border-radius: var(--radius-md);
+    font-size: var(--font-size-sm);
+    font-weight: 700;
+    border: 2px solid;
+}
+
+.action-badge.entrada {
+    background: var(--bg-success);
+    color: var(--text-success);
+    border: 1px solid var(--border-success);
+}
+
+.action-badge.saida {
+    background: var(--bg-danger);
+    color: var(--text-danger);
+    border: 1px solid var(--border-danger);
+}
+
+/* Paginação */
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 2rem;
+    flex-wrap: wrap;
+}
+
+.page-btn {
+    padding: 0.75rem 1.25rem;
+    background: var(--surface-elevated);
+    color: var(--text-primary);
+    text-decoration: none;
+    border-radius: var(--radius-md);
+    border: 2px solid var(--border-default);
+    font-weight: 700;
+    font-size: var(--font-size-sm);
+    transition: all var(--transition-fast);
+    min-height: var(--spacing-touch-target);
+    min-width: var(--spacing-touch-target);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.page-btn:hover { 
+    background: var(--accent); 
+    border-color: var(--accent-hover); 
+    color: var(--bg-1);
+    box-shadow: var(--shadow-sm);
+}
+
+.page-info { 
+    color: var(--text-primary); 
+    font-weight: 700;
+    font-size: var(--font-size-sm);
+}
+
+/* Responsivo */
+@media (max-width: 1024px) {
+    .history-table {
+        font-size: var(--font-size-sm);
+    }
+    
+    .motivo-cell {
+        max-width: 200px;
+    }
+}
+
+@media (max-width: 768px) {
+    .top-controls {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 1rem;
+    }
+    
+    .date-selector,
+    .period-selector {
+        width: 100%;
+        min-width: auto;
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .date-selector label,
+    .period-selector label {
+        justify-content: center;
+    }
+    
+    .date-selector select,
+    .period-selector select {
+        width: 100%;
+        min-width: auto;
+    }
+
+    .custom-date-picker {
+        width: 100%;
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .custom-date-picker label {
+        justify-content: center;
+    }
+
+    .custom-date-picker input[type="date"] {
+        width: 100%;
+        min-width: auto;
+    }
+
+    .period-info {
+        text-align: center;
+    }
+
+    .info-badge {
+        flex-direction: column;
+        text-align: center;
+        gap: 0.5rem;
+    }
+    
+    .export-btn {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .filters-panel { 
+        flex-direction: column; 
+        align-items: stretch; 
+    }
+    
+    .filter-group { 
+        flex-direction: column; 
+        align-items: stretch; 
+    }
+    
+    .filter-group label {
+        text-align: left;
+    }
+    
+    .filter-input {
+        width: 100%;
+        min-width: auto;
+    }
+    
+    .filter-btn {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .history-table { 
+        display: block; 
+        overflow-x: auto; 
+    }
+    
+    .history-table th, .history-table td { 
+        min-width: 120px; 
+    }
+    
+    .motivo-cell {
+        max-width: 150px;
+    }
+}

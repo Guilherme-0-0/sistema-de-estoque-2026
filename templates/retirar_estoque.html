@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="{{ lang }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ t('withdraw_product') }} - {{ produto.produto_nome if produto else t('product') }}</title>
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="{{ url_for('static', filename='img/LogoAtena.png') }}" type="image/x-icon">
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    
+    <!-- Estilos -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style/reset.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style/home.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style/retirar_estoque.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style/modal.css') }}">
+</head>
+<body>
+    <!-- Header com Menu -->
+    <header class="top-bar">
+        <div class="logo-container">
+            <img src="{{ url_for('static', filename='img/LogoAtena.png') }}" alt="Logo" class="logo">
+            <h1>{{ t('withdraw_product') }} - {{ produto.produto_nome if produto else t('product') }}</h1>
+        </div>
+        <nav class="menu" role="navigation" aria-label="menu principal">
+            <a href="{{ url_for('home') }}" class="menu-btn" aria-label="home"><i class="bi bi-house"></i> {{ t('home') }}</a>
+            <a href="{{ url_for('adicionar_produto') }}" class="menu-btn" aria-label="adicionar produto"><i class="bi bi-plus-circle"></i> {{ t('add_product') }}</a>
+            <a href="{{ url_for('retirada') }}" class="menu-btn active" aria-label="retirar produto"><i class="bi bi-box-arrow-left"></i> {{ t('withdraw_product') }}</a>
+            <a href="{{ url_for('historico') }}" class="menu-btn" aria-label="histórico"><i class="bi bi-clock-history"></i> {{ t('view_history') }}</a>
+            <a href="{{ url_for('logout') }}" class="menu-btn danger" aria-label="sair"><i class="bi bi-box-arrow-right"></i> {{ t('logout') }}</a>
+        </nav>
+    </header>
+
+    <main class="main-container">
+        {% if error %}
+        <div class="error-message">
+            <i class="bi bi-exclamation-triangle"></i>
+            {{ error }}
+        </div>
+        {% endif %}
+
+        {% if produto %}
+        <div class="produto-card">
+            <!-- Imagem do Produto -->
+            <div class="produto-imagem">
+                {# Normaliza o caminho: se já vier com 'img/' usa como está, senão prefixa 'img/' ou usa placeholder #}
+                {% set img_file = produto.image_path if produto.image_path and produto.image_path.startswith('img/') else ('img/' + (produto.image_path or 'placeholder_generico.png')) %}
+                <img src="{{ url_for('static', filename=img_file) }}" alt="{{ produto.produto_nome }}">
+            </div>
+
+            <!-- Detalhes do Produto -->
+            <div class="produto-info">
+                <h2>{{ produto.produto_nome }}</h2>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <i class="bi bi-upc"></i>
+                        <span>{{ t('barcode') }}: {{ produto.codigo_de_barras }}</span>
+                    </div>
+                    <div class="info-item">
+                        <i class="bi bi-calendar-event"></i>
+                        <span>{{ t('expiration') }}: {{ produto.validade_text }}</span>
+                    </div>
+                    <div class="info-item">
+                        <i class="bi bi-box-seam"></i>
+                        <span>{{ t('available') }}: 
+                            <strong class="quantidade-atual">{{ produto.quantidade }}</strong>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Formulário de Retirada -->
+            <form id="form-retirada" action="{{ url_for('retirada_com_id', produto_id=produto_id) }}" method="POST" class="quantidade-form">
+                <div class="quantidade-controls">
+                    <button type="button" class="qty-btn minus" onclick="adjustQuantity(-1)">
+                        <i class="bi bi-dash-circle"></i>
+                    </button>
+                    
+            <div class="quantidade-input-group">
+                <label for="quantidade">{{ t('quantity_to_withdraw') }}:</label>
+                        <input type="number"
+                               id="quantidade"
+                               name="quantidade"
+                               min="1"
+                               max="{{ produto.quantidade }}"
+                               value="1"
+                               class="quantidade-input"
+                               required>
+                    </div>
+
+                    <button type="button" class="qty-btn plus" onclick="adjustQuantity(1)">
+                        <i class="bi bi-plus-circle"></i>
+                    </button>
+                </div>
+
+                <div class="responsavel-group">
+                    <label>{{ t('responsible') }}?</label>
+                    <div id="responsavel-options">
+                        <!-- Radio buttons serão carregados aqui via JavaScript -->
+                    </div>
+                    <button type="button" class="gerenciar-btn" onclick="abrirGerenciarResponsaveis()">
+                        <i class="bi bi-gear"></i>
+                        {{ t('manage_responsible') }}
+                    </button>
+                </div>
+
+                <button type="submit" class="submit-btn">
+                    <i class="bi bi-check-circle"></i>
+                    {{ t('confirm_withdraw') }}
+                </button>
+            </form>
+        </div>
+
+        <!-- Dicas -->
+        <div class="tips-container">
+            <h3><i class="bi bi-lightbulb"></i> {% if lang == 'es' %}Consejos:{% else %}Dicas:{% endif %}</h3>
+            <ul>
+                <li>{% if lang == 'es' %}Use los botones + y - para ajustar la cantidad{% else %}Use os botões + e - para ajustar a quantidade{% endif %}</li>
+                <li>{{ t('quantity') }} {% if lang == 'es' %}máxima disponible es{% else %}máxima disponível é{% endif %} {{ produto.quantidade }}</li>
+                <li>{% if lang == 'es' %}Verifique el vencimiento antes de retirar{% else %}Confira a validade antes de retirar{% endif %}</li>
+            </ul>
+        </div>
+        {% endif %}
+    </main>
+
+    <!-- Modal Gerenciar Responsáveis -->
+    <div id="modalGerenciarResponsaveis" class="modal-overlay">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h2>{{ t('manage_responsible') }}</h2>
+                <button class="modal-close" onclick="fecharGerenciarResponsaveis()">
+                    <i class="bi bi-x-lg"></i>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <div class="add-responsavel-form">
+                    <input type="text" 
+                           id="novo-responsavel-input" 
+                           placeholder="{% if lang == 'es' %}Escriba el nombre del responsable{% else %}Digite o nome do responsável{% endif %}"
+                           class="responsavel-input">
+                    <button onclick="adicionarResponsavel()" class="add-btn">
+                        <i class="bi bi-plus-circle"></i>
+                        Adicionar
+                    </button>
+                </div>
+
+                <div class="responsavel-list" id="lista-responsaveis-gerenciamento">
+                    <!-- Lista de responsáveis será carregada aqui -->
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn-secondary" onclick="fecharGerenciarResponsaveis()">
+                    Fechar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Configuração inicial
+        const maxQuantidade = parseInt('{{ produto.quantidade if produto else 0 }}');
+        
+        function adjustQuantity(delta) {
+            const input = document.getElementById('quantidade');
+            const currentValue = parseInt(input.value) || 1;
+            const newValue = currentValue + delta;
+            
+            if (newValue >= 1 && newValue <= maxQuantidade) {
+                input.value = newValue;
+            }
+        }
+
+        // Previne entrada de valores inválidos
+        document.getElementById('quantidade').addEventListener('input', function(e) {
+            const value = parseInt(this.value);
+            
+            if (value < 1) this.value = 1;
+            if (value > maxQuantidade) this.value = maxQuantidade;
+        });
+
+        // ========== SISTEMA DE RESPONSÁVEIS ==========
+
+        // Carrega os responsáveis do banco de dados
+        async function carregarResponsaveis() {
+            try {
+                const response = await fetch('/api/responsaveis');
+                const data = await response.json();
+                const responsaveis = data.responsaveis || [];
+                
+                const container = document.getElementById('responsavel-options');
+                container.innerHTML = '';
+                
+                // Cria radio buttons para cada responsável
+                responsaveis.forEach(resp => {
+                    const label = document.createElement('label');
+                    label.className = 'responsavel-option';
+                    label.innerHTML = `
+                        <input type="radio" 
+                               name="responsavel" 
+                               value="${resp.nome}" 
+                               onchange="toggleOutroInput()">
+                        <i class="bi bi-circle"></i>
+                        <span>${resp.nome}</span>
+                    `;
+                    container.appendChild(label);
+                });
+                
+                // Adiciona opção "Outro"
+                const labelOutro = document.createElement('label');
+                labelOutro.className = 'responsavel-option';
+                labelOutro.innerHTML = `
+                    <input type="radio" 
+                           name="responsavel" 
+                           value="outro" 
+                           onchange="toggleOutroInput()">
+                    <i class="bi bi-circle"></i>
+                    <span>Outro</span>
+                `;
+                container.appendChild(labelOutro);
+                
+                // Adiciona campo de texto para "Outro"
+                const outroInput = document.createElement('input');
+                outroInput.type = 'text';
+                outroInput.id = 'outro-responsavel-input';
+                outroInput.className = 'outro-input';
+                outroInput.placeholder = 'Digite o nome do responsável';
+                outroInput.style.display = 'none';
+                container.appendChild(outroInput);
+                
+                // Atualiza ícones dos radio buttons
+                document.querySelectorAll('.responsavel-option input[type="radio"]').forEach(radio => {
+                    radio.addEventListener('change', function() {
+                        document.querySelectorAll('.responsavel-option i').forEach(icon => {
+                            icon.className = 'bi bi-circle';
+                        });
+                        if (this.checked) {
+                            this.nextElementSibling.className = 'bi bi-check-circle';
+                        }
+                    });
+                });
+                
+            } catch (error) {
+                console.error('Erro ao carregar responsáveis:', error);
+                alert('Erro ao carregar lista de responsáveis');
+            }
+        }
+
+        // Mostra/esconde campo "Outro"
+        function toggleOutroInput() {
+            const outroRadio = document.querySelector('input[name="responsavel"][value="outro"]');
+            const outroInput = document.getElementById('outro-responsavel-input');
+            
+            if (outroRadio && outroRadio.checked) {
+                outroInput.style.display = 'block';
+                outroInput.focus();
+            } else {
+                outroInput.style.display = 'none';
+                outroInput.value = '';
+            }
+        }
+
+        // Abre modal de gerenciamento
+        function abrirGerenciarResponsaveis() {
+            document.getElementById('modalGerenciarResponsaveis').style.display = 'flex';
+            listarResponsaveisGerenciamento();
+        }
+
+        // Fecha modal de gerenciamento
+        function fecharGerenciarResponsaveis() {
+            document.getElementById('modalGerenciarResponsaveis').style.display = 'none';
+            carregarResponsaveis(); // Recarrega a lista principal
+        }
+
+        // Lista responsáveis no modal de gerenciamento
+        async function listarResponsaveisGerenciamento() {
+            try {
+                const response = await fetch('/api/responsaveis');
+                const data = await response.json();
+                const responsaveis = data.responsaveis || [];
+                
+                const lista = document.getElementById('lista-responsaveis-gerenciamento');
+                lista.innerHTML = '';
+                
+                responsaveis.forEach(resp => {
+                    const item = document.createElement('div');
+                    item.className = 'responsavel-item';
+                    item.innerHTML = `
+                        <span>${resp.nome}</span>
+                        <button onclick="removerResponsavel(${resp.id})" class="remove-responsavel-btn">
+                            <i class="bi bi-trash"></i>
+                            Remover
+                        </button>
+                    `;
+                    lista.appendChild(item);
+                });
+            } catch (error) {
+                console.error('Erro ao listar responsáveis:', error);
+            }
+        }
+
+        // Adiciona novo responsável
+        async function adicionarResponsavel() {
+            const input = document.getElementById('novo-responsavel-input');
+            const nome = input.value.trim();
+            
+            if (!nome) {
+                alert('Por favor, digite um nome');
+                return;
+            }
+            
+            try {
+                const response = await fetch('/api/responsaveis', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ nome })
+                });
+                
+                const result = await response.json();
+                
+                if (result.ok) {
+                    input.value = '';
+                    listarResponsaveisGerenciamento();
+                } else {
+                    alert(result.error || 'Erro ao adicionar responsável');
+                }
+            } catch (error) {
+                console.error('Erro ao adicionar responsável:', error);
+                alert('Erro ao adicionar responsável');
+            }
+        }
+
+        // Remove responsável
+        async function removerResponsavel(id) {
+            if (!confirm('Deseja realmente remover este responsável?')) {
+                return;
+            }
+            
+            try {
+                const response = await fetch(`/api/responsaveis/${id}`, {
+                    method: 'DELETE'
+                });
+                
+                const result = await response.json();
+                
+                if (result.ok) {
+                    listarResponsaveisGerenciamento();
+                } else {
+                    alert('Erro ao remover responsável');
+                }
+            } catch (error) {
+                console.error('Erro ao remover responsável:', error);
+                alert('Erro ao remover responsável');
+            }
+        }
+
+        // Valida formulário antes de enviar
+        document.getElementById('form-retirada').addEventListener('submit', function(e) {
+            const responsavelSelecionado = document.querySelector('input[name="responsavel"]:checked');
+            
+            if (!responsavelSelecionado) {
+                e.preventDefault();
+                alert('Por favor, selecione quem está retirando');
+                return false;
+            }
+            
+            let responsavel = responsavelSelecionado.value;
+            
+            // Se for "outro", pega o valor do campo de texto
+            if (responsavel === 'outro') {
+                const outroInput = document.getElementById('outro-responsavel-input');
+                responsavel = outroInput.value.trim();
+                
+                if (!responsavel) {
+                    e.preventDefault();
+                    alert('Por favor, digite o nome do responsável');
+                    return false;
+                }
+            }
+            
+            // Adiciona campo hidden com o responsável
+            const hiddenInput = document.createElement('input');
+            hiddenInput.type = 'hidden';
+            hiddenInput.name = 'responsavel';
+            hiddenInput.value = responsavel;
+            this.appendChild(hiddenInput);
+        });
+
+        // Carrega responsáveis ao carregar a página
+        window.addEventListener('DOMContentLoaded', function() {
+            carregarResponsaveis();
+        });
+    </script>
+</body>
+</html>
