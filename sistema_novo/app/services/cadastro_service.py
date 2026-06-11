@@ -27,16 +27,23 @@ class CadastroService:
             validade_int = int(datetime_validade.timestamp()) #transfere para timestamp que pegar o valor da data em um número inteiro
             validade_text = datetime_validade.strftime('%d/%m/%Y') #formata a data para uma string por exemplo 31/12/2024
 
-        
+            #modo rápido de cadastro de produto
             if modo_rapido:
+
                 produtoExistente = CadastroEstoque.adicionar_quantidade(codigo_de_barras, quantidade_nova, validade_text)
-                movimentacaoDoproduto = MovimentacaoEstoque.re
-                return produtoExistente
+
+              # movimentacaoDoproduto = MovimentacaoEstoque.re seção temporariamente comentada por que o model de movimentação ainda não está pronto
+
+                return produtoExistente, movimentacaoDoproduto
+            #modo normal de cadastro de produto
             else:
                 #puxa os outros valores do formulário
-                nome_produto = request.form('produto_nome')
-                lote = request.form('lote','')
-                categoria = request.form('categoria','')
-                caminho_imagem = request.form('image_path')
+                nome_produto = request.form('produto_nome') # faz request do nome do item
+                lote = request.form('lote','') # faz request do lote, caso venha vazio insere valor nulo a ele
+                categoria = request.form('categoria','') # faz request da categoria, também se vier vazio insere valor nulo
+                caminho_imagem = request.form('image_path') # faz request do caminho da imagem,
+                                                            # ele recebe um texto que é onde a imagem genérica dos produtos se encontram
+
+                
                 
             
