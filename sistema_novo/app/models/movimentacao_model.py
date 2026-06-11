@@ -3,13 +3,13 @@ from app.database.DB_connection import create_connection, conn_close
 
 class MovimentacaoEstoque:
         @staticmethod
-        def registrar_movimentacao(nome_produto, quantidade, tipo_movimentacao):
+        def registrar_movimentacao(nome_produto, quantidade, tipo_movimentacao, responsavel):
                 conn = create_connection()
                 cursor = conn.cursor()
                 cursor.execute('''
-                    INSERT INTO historico (nome_produto, quantidade, tipo_movimentacao)
+                    INSERT INTO historico (nome_produto, quantidade, tipo_movimentacao, responsavel)
                     VALUES (?, ?, ?)
-                ''', (nome_produto, quantidade, tipo_movimentacao))
+                ''', (nome_produto, quantidade, tipo_movimentacao, responsavel))
                 conn_close(conn)
         @staticmethod
         def obter_historico():
