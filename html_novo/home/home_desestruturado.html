@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="{{ lang }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ t('home') }}</title>
+
+    <!-- metodo de link padrão do jinja2 VERIFICAR com gpt para a estruturação atual do projeto como irá ficar
+    <link rel="stylesheet" href="{{ url_for('static', filename='style/home.css') }}">
+-->
+</head>
+<body>
+    <!-- Header padrão para navegação-->
+    <header class="cabecalho"><!--novo nome da classe, antigo:top-bar-->
+
+        <div class="container-da-logo"><!--novo nome da classe, antigo:logo-container-->
+
+            <img src="{{ url_for('static', filename='img/LogoAtena.png') }}" alt="Logo" class="logo">
+            <h1>{{ t('stock_management') }}</h1>
+        </div>
+
+        <form class="container-de-pesquisa" action="{{ url_for('home') }}" method="get" role="search" aria-label="{{ t('search_placeholder') }}"><!--novo nome para classe, antigo:search-container-->
+
+            <label for="searchInput" class="sr-only">{{ t('search_placeholder') }}</label>
+            <input id="searchInput" name="q" type="text" placeholder="{{ t('search_placeholder') }}" class="search-input" value="{{ request.args.get('q', '') }}">
+            <button class="search-btn" aria-label="{{ t('search_placeholder') }}"><i class="bi bi-search"></i></button>
+
+        </form>
+
+        <nav class="menu-de-navegacao" role="navigation" aria-label="menu principal"><!--novo nome para a classe, antigo:menu-->
+
+            <a href="{{ url_for('home') }}" class="menu-btn active" aria-label="{{ t('home') }}"><i class="bi bi-house-fill"></i> {{ t('home') }}</a>
+            <!-- aqui foi usado uma classe diferente para o botão para mostrar que estamos na seção home-->
+
+            <a href="{{ url_for('adicionar_produto') }}" class="menu-btn" aria-label="{{ t('add_product') }}"><i class="bi bi-plus-circle"></i> {{ t('add_product') }}</a>
+            <a href="{{ url_for('retirada') }}" class="menu-btn" aria-label="{{ t('withdraw') }}"><i class="bi bi-box-arrow-left"></i> {{ t('withdraw') }}</a>
+            <a href="{{ url_for('historico') }}" class="menu-btn" aria-label="{{ t('view_history') }}"><i class="bi bi-clock-history"></i> {{ t('view_history') }}</a>
+
+            <a href="{{ url_for('logout') }}" class="menu-btn danger" aria-label="{{ t('logout') }}"><i class="bi bi-box-arrow-right"></i> {{ t('logout') }}</a>
+            <!-- aqui também foi usado uma classe diferente para o botão porque representa o botão de saída para o site e el fica em vemrelho-->
+
+        </nav>
+        
+        <!-- Conteudo para trocar a língua do site -->
+        <div class="troca-de-lingua"><!--novo nome para a classe, antigo:language-switcher-->
+
+            <a href="{{ url_for('change_language', lang='pt') }}" class="lang-btn {{ 'active' if lang == 'pt' else '' }}">🇧🇷</a>
+            <a href="{{ url_for('change_language', lang='es') }}" class="lang-btn {{ 'active' if lang == 'es' else '' }}">🇪🇸</a>
+        </div>
+    </header>
+
+</body>
