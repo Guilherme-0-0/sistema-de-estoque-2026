@@ -1,0 +1,33 @@
+body{
+   background-color: lightgray; 
+}
+
+/* Conteudo alterado por mim */
+
+    /* este é o nosso header */
+    .cabecalho{
+        background-color: aqua;
+    }
+
+        /* aqui estão as duas divs dentro do cabecalho */
+        .container-da-logo{
+            background-color: blue;
+        }
+        .troca-de-lingua{
+            background-color: blueviolet;
+        }
+
+        /* aqui o form do cabecalho para pesqusia de produtos dentro de home */
+        .container-de-pesquisa{
+            background-color: chartreuse;
+        }
+
+        /* aqui o menu de navegação para mudar de seções do site */
+        .menu-de-navegacao{
+            background-color: chocolate;
+        }
+
+
+    
+    /* conteúdo feito por IA */
+    
