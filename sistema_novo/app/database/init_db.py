@@ -26,10 +26,11 @@ def criar_tabelas():
             #tabela de usuarios
             cursor.execute('''
                 CREATE TABLE IF NOT EXISTS usuarios (
-                    id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    nome TEXT NOT NULL,
-                    funcao TEXT NOT NULL
-                    ''')# criamos  tabelas dos usuários, com id, nome e função,
+                    id INTEGER PRIMARY KEY AUTOINCREMENT, -- aqui vai o id do usuário
+                    nome TEXT NOT NULL, -- aqui vai o nome do usuário
+                    funcao TEXT NOT NULL, --aqui vai a função do usuário (ex: administrador, gerente de estoque, funcionário)
+                    senha TEXT NOT NULL -- aqui vai o hash da senha do usuário
+                    ''')# criamos  tabelas dos usuários, com id, nome, função e senha(hash)
 
             #tabela de estoque
             cursor.execute('''

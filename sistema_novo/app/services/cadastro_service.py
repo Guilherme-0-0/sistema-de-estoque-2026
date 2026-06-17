@@ -4,20 +4,9 @@ from datetime import datetime
 from flask import request
 
 class CadastroService:
-        @staticmethod
-        def adicionar_produto(nome_produto, codigo_de_barras, quantidade, lote, validade_int, validade_texto, imagem_caminho, categoria):
-            
-            # Puxar os dados do formulário de cadastro de /routes/cadastro_route.py
-            modo_rapido = request.form('modo_rapido') == 'on'
-            codigo_de_barras = int(request.form('codigo_de_barras', ''))
-            validade = request.form('validade')
-            
-
-            try:
-              quantidade_nova = int(request.form('quantidade', 0))
-            except ValueError:
-              raise ValueError("A quantidade deve ser um número válido.")
-
+        @staticmethod # Serviço de cadastro do produto
+        def adicionar_produto(nome_produto, codigo_de_barras, quantidade, lote, validade, categoria, modo_rapido, caminho_imagem, responsavel_atual):
+          
             # 2. Conversão e formatação da data
             try:
               datetime_validade = datetime.strptime(validade, '%d/%m/%Y') #conversão para datetime em formato brasileiro
@@ -30,20 +19,22 @@ class CadastroService:
             #modo rápido de cadastro de produto
             if modo_rapido:
 
-                produtoExistente = CadastroEstoque.adicionar_quantidade(codigo_de_barras, quantidade_nova, validade_text)
+                produtoExistente = CadastroEstoque.adicionar_quantidade(codigo_de_barras, quantidade, validade_text)
+                sucesso = produtoExistente is not None
+                movimentacaoDoproduto = MovimentacaoEstoque.registrar_movimentacao(codigo_de_barras, quantidade, "Adicionar", )
+                if sucesso:
+                  return f"Produto '{nome_produto}' atualizado com sucesso. Quantidade adicionada: {quantidade}."
+                else:
+                  return f"Erro ao atualizar o produto '{nome_produto}'."
 
-              # movimentacaoDoproduto = MovimentacaoEstoque.re seção temporariamente comentada por que o model de movimentação ainda não está pronto
-
-                return produtoExistente, movimentacaoDoproduto
             #modo normal de cadastro de produto
             else:
-                #puxa os outros valores do formulário
-                nome_produto = request.form('produto_nome') # faz request do nome do item
-                lote = request.form('lote','') # faz request do lote, caso venha vazio insere valor nulo a ele
-                categoria = request.form('categoria','') # faz request da categoria, também se vier vazio insere valor nulo
-                caminho_imagem = request.form('image_path') # faz request do caminho da imagem,
-                                                            # ele recebe um texto que é onde a imagem genérica dos produtos se encontram
-
+                adicionarProduto = CadastroEstoque.cadastrar_produto(nome_produto, codigo_de_barras, quantidade, lote, validade_int, validade_text, caminho_imagem, categoria)
+                #registroMovimentacao = MovimentacaoEstoque.registrar_movimenta
+                if adicionarProduto is not None:
+                  return f"Produto '{nome_produto}' cadastrado com sucesso."
+                else:
+                  return f"Erro ao cadastrar o produto '{nome_produto}'."
                 
                 
             
