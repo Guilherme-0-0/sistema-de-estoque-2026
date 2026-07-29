@@ -1,10 +1,11 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash, session
 from app.services.cadastro_service import CadastroService
-from app.services.login_service import LoginService
+from app.utils.auth_util import authenticate_user
 
 blueprint = Blueprint('blueprint',__name__)
 
 @blueprint.route('/cadastrarItem',methods=['POST','GET'])
+@authenticate_user
 def cadastrarItem():
 
     if request.method == 'POST':
@@ -26,7 +27,7 @@ def cadastrarItem():
             flash("A quantidade deve ser um número válido.", 'erro')
             return redirect(url_for('blueprint.cadastrarItem'))
 
-        responsavel_atual = LoginService.pegar_sessao()  # Pegamos o nome do usuário logado
+        responsavel_atual = session.get('nome')  # Pegamos o nome do usuário logado
 
         # Tentamos enviar os dados para o serviço de cadastro, caso ocorra algum erro, exibimos uma mensagem de erro para o suário
         try:
